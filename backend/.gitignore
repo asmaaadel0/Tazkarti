@@ -5,7 +5,7 @@ node_modules
 
 
 # dotenv environment variable files
-.env
+config.env
 .env.development
 .env.development.local
 .env.test.local
