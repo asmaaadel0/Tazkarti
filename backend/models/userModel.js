@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const becrypt = require('bcrypt');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -46,10 +47,40 @@ userSchema.statics.signup = async function(
   emailAddress,
   role
 ) {
+  if (
+    !userName ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !birthDate ||
+    !gender ||
+    !city ||
+    !emailAddress ||
+    !role
+  ) {
+    throw Error('this fields is required');
+  }
+  if (!validator.isEmail(emailAddress)) {
+    throw Error('Email is not valid');
+  }
+  // if (
+  //   !validator.isStrongPassword(password, {
+  //     minLength: 8,
+  //     minLowercase: 1,
+  //     minUppercase: 1,
+  //     minNumbers: 1,
+  //     minSymbols: 1
+  //   })
+  // ) {
+  //   throw Error('password is not strong enough');
+  // }
   const exists = await this.findOne({ userName });
-
   if (exists) {
     throw Error('this username already exists!');
+  }
+  const Emailexists = await this.findOne({ emailAddress });
+  if (Emailexists) {
+    throw Error('this email already exists!');
   }
   const saltRounds = 10;
   const salt = await becrypt.genSalt(saltRounds);
