@@ -65,7 +65,7 @@
               <!-- Fourth Line -->
               <v-col cols="12" sm="6">
                 <v-text-field
-                  label="Address"
+                  label="Address (Optional)"
                   prepend-inner-icon="mdi-map-marker"
                   class="input-label"
                 ></v-text-field>
