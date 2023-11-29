@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const becrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -25,12 +26,49 @@ const userSchema = new mongoose.Schema({
   emailAddress: { type: String, required: true, lowercase: true, unique: true },
   role: {
     type: String,
-    enum: ['Manager', 'Fan', 'Site Administrator'],
+    enum: ['manager', 'fan', 'admin'],
     required: true
   },
   isPending: { type: Boolean, default: true, required: true },
   createdIn: { type: Date, default: Date.now, required: true }
 });
+
+//signup
+userSchema.statics.signup = async function(
+  userName,
+  password,
+  firstName,
+  lastName,
+  birthDate,
+  gender,
+  city,
+  address,
+  emailAddress,
+  role
+) {
+  const exists = await this.findOne({ userName });
+
+  if (exists) {
+    throw Error('this username already exists!');
+  }
+  const saltRounds = 10;
+  const salt = await becrypt.genSalt(saltRounds);
+  const hash = await becrypt.hash(password.toString(), salt);
+  const user = await this.create({
+    userName,
+    password: hash,
+    firstName,
+    lastName,
+    birthDate,
+    gender,
+    city,
+    address,
+    emailAddress,
+    role
+  });
+
+  return user;
+};
 
 const userModel = mongoose.model('User', userSchema);
 
