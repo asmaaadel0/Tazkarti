@@ -30,7 +30,7 @@ export default defineComponent({
   flex-basis: 50%;
   width: 50%;
   text-align: center;
-  background-color: rgb(40, 108, 8);
+  background-color: var(--color-primary);
 }
 .child2 {
   flex-basis: 50%;
