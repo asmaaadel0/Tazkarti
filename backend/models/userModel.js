@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const becrypt = require('bcrypt');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -46,10 +47,40 @@ userSchema.statics.signup = async function(
   emailAddress,
   role
 ) {
+  if (
+    !userName ||
+    !password ||
+    !firstName ||
+    !lastName ||
+    !birthDate ||
+    !gender ||
+    !city ||
+    !emailAddress ||
+    !role
+  ) {
+    throw Error('this fields is required');
+  }
+  if (!validator.isEmail(emailAddress)) {
+    throw Error('Email is not valid');
+  }
+  // if (
+  //   !validator.isStrongPassword(password, {
+  //     minLength: 8,
+  //     minLowercase: 1,
+  //     minUppercase: 1,
+  //     minNumbers: 1,
+  //     minSymbols: 1
+  //   })
+  // ) {
+  //   throw Error('password is not strong enough');
+  // }
   const exists = await this.findOne({ userName });
-
   if (exists) {
     throw Error('this username already exists!');
+  }
+  const Emailexists = await this.findOne({ emailAddress });
+  if (Emailexists) {
+    throw Error('this email already exists!');
   }
   const saltRounds = 10;
   const salt = await becrypt.genSalt(saltRounds);
@@ -70,6 +101,33 @@ userSchema.statics.signup = async function(
   return user;
 };
 
+userSchema.statics.login = async function(userName, password) {
+  if (!userName || !password) {
+    throw Error('this fields is required');
+  }
+
+  const user = await this.findOne({ userName });
+  if (!user) {
+    throw Error('incorrect userName !');
+  }
+  // await becrypt.compare(password.toString(), user.password, (err, result) => {
+  //   if (err) {
+  //     throw Error("can't compare passwords");
+  //   }
+  //   if (result) {
+  //     console.log('Passwords match.');
+  //   } else {
+  //     console.log('Passwords do not match.');
+  //     throw Error('Passwords do not match.');
+  //   }
+  // });
+  const match = await becrypt.compare(password.toString(), user.password);
+  console.log(match);
+  if (!match) {
+    throw Error('incorrect password !');
+  }
+  return user;
+};
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;
