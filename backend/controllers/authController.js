@@ -7,7 +7,14 @@ const createToken = _id => {
 };
 
 const login = async (req, res) => {
-  res.json({ msg: 'user is log in' });
+  const { userName, password } = req.body;
+  try {
+    const user = await userModel.login(userName, password);
+    const token = createToken(user._id);
+    res.status(200).json({ userName, token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 //signup
@@ -43,7 +50,7 @@ const signup = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-  res.json({ msg: 'user is sign up' });
+  // res.json({ msg: 'user is sign up' });
 };
 
 module.exports = { login, signup };

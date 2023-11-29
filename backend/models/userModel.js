@@ -101,6 +101,21 @@ userSchema.statics.signup = async function(
   return user;
 };
 
+userSchema.statics.login = async function(userName, password) {
+  if (!userName || !password) {
+    throw Error('this fields is required');
+  }
+
+  const user = await this.findOne({ userName });
+  if (!user) {
+    throw Error('incorrect userName !');
+  }
+  const match = becrypt.compare(password.toString(), user.password.toString());
+  if (!match) {
+    throw Error('incorrect password !');
+  }
+  return user;
+};
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;
