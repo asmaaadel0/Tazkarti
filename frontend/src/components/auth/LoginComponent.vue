@@ -9,7 +9,7 @@
         <v-sheet width="320" class="mx-auto">
           <v-form ref="form">
             <v-text-field
-              prepend-inner-icon="mdi-email-outline"
+              prepend-inner-icon="mdi-account-outline"
               label="Username"
               required
               class="input-label"
