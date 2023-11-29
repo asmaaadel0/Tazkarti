@@ -36,7 +36,9 @@ export default {
       this.$router.push("/reservation");
     },
     logout() {
-      // Implement logout logic
+      localStorage.setItem("accessToken", "");
+      localStorage.setItem("userName", "");
+      localStorage.setItem("role", "");
     },
     editProfile() {
       // Implement edit profile logic
