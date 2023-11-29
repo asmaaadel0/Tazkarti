@@ -37,63 +37,6 @@
   </div>
 </template>
 
-<!-- <script>
-import { defineComponent } from "vue";
-import InputForm from "./InputForm.vue";
-import { validateEmail, validatePassword } from "../../utils/validations";
-
-export default defineComponent({
-  components: {
-    InputForm,
-  },
-  data() {
-    return {
-      email: "",
-      password: "",
-      emailValidationResult: {},
-      passwordValidationResult: {},
-      isEmailClicked: false,
-      isPasswordClicked: false,
-    };
-  },
-  computed: {
-    errorEmail() {
-      return !validateEmail(this.email).isValid;
-    },
-    errorPassword() {
-      return !validatePassword(this.password).isValid;
-    },
-    validateEmailRule() {
-      return (value) => {
-        this.emailValidationResult = validateEmail(value);
-        return (
-          this.emailValidationResult.isValid ||
-          this.emailValidationResult.errorMessage
-        );
-      };
-    },
-    validatePasswordRule() {
-      return (value) => {
-        this.passwordValidationResult = validatePassword(value);
-        return (
-          this.passwordValidationResult.isValid ||
-          this.passwordValidationResult.errorMessage
-        );
-      };
-    },
-  },
-  methods: {
-    submitForm() {
-      if (!this.errorEmail && !this.errorPassword) {
-        console.log("Email:", this.email);
-      } else {
-        console.log("Form is not valid");
-      }
-    },
-  },
-});
-</script> -->
-
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Inter");
 .header-box {
