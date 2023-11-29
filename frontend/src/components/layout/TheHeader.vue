@@ -55,7 +55,8 @@ export default {
 }
 .header-title {
   font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--color-primary);
-  margin-left: -9rem;
 }
 </style>
