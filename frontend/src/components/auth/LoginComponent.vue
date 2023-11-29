@@ -43,7 +43,7 @@
   margin: 1rem;
 }
 .header-text {
-  color: rgb(40, 108, 8);
+  color: var(--color-primary);
   text-align: center;
   font-family: Poppins;
   font-size: 24px;
@@ -56,12 +56,12 @@
   font-size: 1rem;
   margin-bottom: 1rem;
   font-weight: 400;
-  color: #525252;
+  color: var(--color-grey-dark);
   font-family: "Poppins", sans-serif;
 }
 .signin-text {
   margin-bottom: 1rem;
-  color: #525252;
+  color: var(--color-grey-dark);
   text-align: center;
   font-family: Poppins;
   font-size: 1rem;
@@ -70,7 +70,7 @@
   margin-bottom: 3rem;
 }
 .input-label {
-  color: var(--white-gray, #494747);
+  color: var(--color-grey-dark-2);
   font-family: Poppins;
   font-size: 0.75rem;
   font-style: normal;
@@ -85,9 +85,13 @@
 }
 .btn {
   border-radius: 8px;
-  background: linear-gradient(134deg, rgb(40, 108, 8) 0%, rgb(40, 108, 8) 100%);
+  background: linear-gradient(
+    134deg,
+    var(--color-primary) 0%,
+    var(--color-primary) 100%
+  );
   box-shadow: 0px 8px 21px 0px rgba(0, 0, 0, 0.16);
-  color: #ffff;
+  color: var(--color-white);
 }
 .forgot-password-container {
   text-align: right;
@@ -95,7 +99,7 @@
 }
 
 .link {
-  color: var(--main-button, rgb(40, 108, 8));
+  color: var(--color-primary);
   font-family: Poppins;
   font-size: 1rem;
   font-style: normal;
@@ -104,7 +108,7 @@
   text-decoration: none;
 }
 .signin-link {
-  color: rgb(40, 108, 8);
+  color: var(--color-primary);
   font-weight: 400;
 }
 .form-separator {
