@@ -37,7 +37,7 @@
 }
 
 .text-block h1 {
-  color: white;
+  color: var(--color-white);
   font-size: 46px;
   line-height: 56px;
   font-weight: bold;
@@ -47,7 +47,7 @@
 }
 
 .text-block p {
-  color: white;
+  color: var(--color-white);
   font-size: 20px;
   line-height: 56px;
   font-family: "IBM Plex Sans", sans-serif;
