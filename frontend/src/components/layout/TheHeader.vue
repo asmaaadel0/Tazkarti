@@ -4,6 +4,9 @@
     <v-app-bar-title class="header-title">Tazkarti</v-app-bar-title>
     <v-spacer></v-spacer>
     <v-btn @click="matches" class="btn">Matches</v-btn>
+    <v-btn v-if="isLoggedIn" @click="reservation" class="btn"
+      >Reservation</v-btn
+    >
     <v-btn v-if="!isLoggedIn" @click="signup" class="btn">Sign Up</v-btn>
     <v-btn v-if="!isLoggedIn" @click="login" class="btn">Login</v-btn>
     <v-btn v-if="isLoggedIn" @click="editProfile" class="btn"
@@ -29,8 +32,8 @@ export default {
     matches() {
       this.$router.push("/matches");
     },
-    staduims() {
-      this.$router.push("/staduims");
+    reservation() {
+      this.$router.push("/reservation");
     },
     logout() {
       // Implement logout logic
@@ -53,6 +56,6 @@ export default {
 .header-title {
   font-size: 2rem;
   color: var(--color-primary);
-  margin-left: -10rem;
+  margin-left: -9rem;
 }
 </style>
