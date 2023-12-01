@@ -36,7 +36,9 @@ export default {
       this.$router.push("/reservation");
     },
     logout() {
-      // Implement logout logic
+      localStorage.setItem("accessToken", "");
+      localStorage.setItem("userName", "");
+      localStorage.setItem("role", "");
     },
     editProfile() {
       // Implement edit profile logic
@@ -55,7 +57,8 @@ export default {
 }
 .header-title {
   font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--color-primary);
-  margin-left: -9rem;
 }
 </style>

@@ -5,17 +5,18 @@
     </div>
     <div class="form-box">
       <p class="signup-text">Create Your Account</p>
-      <input-form>
+      <v-form>
         <v-sheet width="500" class="mx-auto">
-          <v-form ref="form">
+          <v-form ref="form" @submit.prevent="signup()">
             <v-row>
-              <!-- First Line -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   prepend-inner-icon="mdi-account-outline"
                   label="Username"
                   required
                   class="input-label"
+                  v-model="username"
+                  :rules="[validateInput]"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -25,15 +26,18 @@
                   prepend-inner-icon="mdi-lock-outline"
                   label="Password"
                   required
+                  v-model="password"
+                  :rules="[validatePassword]"
                 ></v-text-field>
               </v-col>
-              <!-- Second Line -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   prepend-inner-icon="mdi-account-outline"
                   label="First Name"
                   required
                   class="input-label"
+                  v-model="firstName"
+                  :rules="[validateInput]"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -42,15 +46,18 @@
                   label="Last Name"
                   required
                   class="input-label"
+                  v-model="lastName"
+                  :rules="[validateInput]"
                 ></v-text-field>
               </v-col>
-              <!-- Third Line -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   prepend-inner-icon="mdi-calendar-outline"
                   type="date"
                   label="Birth Date"
                   class="input-label"
+                  v-model="birthDate"
+                  :rules="[validateInput]"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -60,14 +67,24 @@
                   label="Gender"
                   prepend-inner-icon="mdi-gender-male-female"
                   class="input-label"
+                  :rules="[validateInput]"
                 ></v-select>
               </v-col>
-              <!-- Fourth Line -->
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  label="city"
+                  prepend-inner-icon="mdi-map-marker"
+                  class="input-label"
+                  v-model="city"
+                  :rules="[validateInput]"
+                ></v-text-field>
+              </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Address (Optional)"
                   prepend-inner-icon="mdi-map-marker"
                   class="input-label"
+                  v-model="addres"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -76,18 +93,23 @@
                   label="Email"
                   required
                   class="input-label"
+                  v-model="email"
+                  :rules="[validateInput] && [validateEmail]"
                 ></v-text-field>
               </v-col>
-              <!-- Fifth Line -->
               <v-col cols="12">
-                <v-radio-group v-model="selectedRole">
+                <v-radio-group v-model="selectedRole" :rules="[validateInput]">
                   <v-radio label="Manager" value="manager"></v-radio>
                   <v-radio label="Fan" value="fan"></v-radio>
                 </v-radio-group>
               </v-col>
-              <!-- Sixth Line -->
+              <p class="error" v-if="errorUserName != ''">
+                {{ errorUserName }}
+              </p>
               <v-col cols="12">
-                <v-btn type="submit" block class="mt-2 btn">Sign Up</v-btn>
+                <v-btn type="submit" block class="mt-2 btn" :loading="loading"
+                  >Sign Up</v-btn
+                >
               </v-col>
             </v-row>
           </v-form>
@@ -100,7 +122,7 @@
             >
           </p>
         </v-sheet>
-      </input-form>
+      </v-form>
     </div>
   </div>
 </template>
@@ -109,17 +131,99 @@
 export default {
   data() {
     return {
+      username: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      birthDate: "",
       gender: null,
       genderOptions: ["Male", "Female", "Other"],
+      city: "",
+      addres: "",
+      email: "",
       selectedRole: null,
+
+      errorUserName: "",
+
+      loading: false,
     };
   },
-  // other component options...
+
+  methods: {
+    validateInput(value) {
+      if (!value) {
+        return "This field is required";
+      }
+      return true;
+    },
+    validateEmail(value) {
+      if (/^[a-zA-Z0-9\\/*+;&%?#@!^()_="\-:~`|[\]{}\s]*$/i.test(value)) {
+        return "Enter valid Email";
+      }
+      return true;
+    },
+    validatePassword(value) {
+      if (!value) {
+        return "Password is required";
+      }
+      if (value.length < 8) {
+        return "Password must be more than 8 charachters";
+      }
+      return true;
+    },
+    async signup() {
+      console.log(this.username);
+      console.log(this.password);
+      console.log(this.firstName);
+      console.log(this.lastName);
+      console.log(this.birthDate);
+      console.log(this.gender);
+      console.log(this.city);
+      console.log(this.addres);
+      console.log(this.email);
+      console.log(this.selectedRole);
+
+      this.loading = true;
+      this.errorUserName = "";
+      const actionPayload = {
+        userName: this.username,
+        password: this.password,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        birthDate: this.birthDate,
+        gender: this.gender,
+        city: this.city,
+        addres: this.addres,
+        emailAddress: this.email,
+        role: this.selectedRole,
+
+        baseurl: this.$baseurl,
+      };
+      try {
+        const response = await this.$store.dispatch(
+          "auth/signup",
+          actionPayload
+        );
+        if (response.status == 200) {
+          this.$router.replace("/matches");
+        }
+      } catch (err) {
+        this.errorUserName =
+          "This username is already taken, Try different one";
+      }
+
+      this.loading = false;
+    },
+  },
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Inter");
+.error {
+  color: red;
+  font-size: 1rem;
+}
 .header-box {
   margin: 1rem;
 }
