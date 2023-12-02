@@ -36,4 +36,38 @@ export default {
       throw error;
     }
   },
+  async editUser(context, payload) {
+    const userInfo = {
+      userName: payload.userName,
+      password: payload.password,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      birthDate: payload.birthDate,
+      gender: payload.gender,
+      city: payload.city,
+      address: payload.address,
+      emailAddress: payload.emailAddress,
+    };
+    const baseurl = payload.baseurl;
+
+    const response = await fetch(
+      baseurl + "/api/user/editUser/:" + payload.id,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userInfo),
+      }
+    );
+
+    const responseData = await response.json();
+    if (response.status == 200) {
+      context.commit("setDone", true);
+    }
+
+    if (response.status == 400) {
+      context.commit("setDone", false);
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };

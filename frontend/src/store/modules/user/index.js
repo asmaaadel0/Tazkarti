@@ -6,6 +6,7 @@ export default {
   state() {
     return {
       user: {},
+      done: false,
     };
   },
   mutations,
