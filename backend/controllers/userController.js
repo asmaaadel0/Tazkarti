@@ -1,14 +1,13 @@
-// const userModel = require('../models/userModel.js');
+const userModel = require('../models/userModel');
 
-// const getAllUsers = async (req, res) => {
-//   const users = await userModel.find();
-//   res.status(200).json({
-//     status: 'success',
-//     results: users.length,
-//     data: {
-//       users
-//     }
-//   });
-// };
+const getUser = async (req, res) => {
+  const { userName } = req.body;
+  try {
+    const user = await userModel.getUser(userName);
+    // return res.status(200).json({ userName, token });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 
-// module.exports = { getAllUsers };
+module.exports = { getUser };
