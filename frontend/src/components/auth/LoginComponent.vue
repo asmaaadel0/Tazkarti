@@ -5,7 +5,7 @@
     </div>
     <div class="form-box">
       <p class="signin-text">Sign in to your account</p>
-      <input-form>
+      <v-form>
         <v-sheet width="320" class="mx-auto">
           <v-form ref="form" @submit.prevent="login()">
             <v-text-field
@@ -40,7 +40,7 @@
               >Sign Up</router-link
             >
           </p>
-        </v-sheet></input-form
+        </v-sheet></v-form
       >
     </div>
   </div>
@@ -86,15 +86,16 @@ export default {
         baseurl: this.$baseurl,
       };
       try {
-        const response = await this.$store.dispatch("login", actionPayload);
-        if (response.status == 200) {
-          this.$router.replace("/matches");
-        }
+        await this.$store.dispatch("login", actionPayload);
       } catch (err) {
         this.error = err;
+        this.loading = false;
+        return;
       }
 
       this.loading = false;
+      window.location.reload();
+      this.$router.replace("/matches");
     },
   },
 };

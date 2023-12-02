@@ -172,16 +172,6 @@ export default {
       return true;
     },
     async signup() {
-      // console.log(this.username);
-      // console.log(this.password);
-      // console.log(this.firstName);
-      // console.log(this.lastName);
-      // console.log(this.birthDate);
-      // console.log(this.gender);
-      // console.log(this.city);
-      // console.log(this.address);
-      // console.log(this.email);
-      // console.log(this.selectedRole);
       if (
         !this.username ||
         !this.password ||
