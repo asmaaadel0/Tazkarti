@@ -9,7 +9,7 @@
 
 <script>
 import SignupComponent from "../../components/auth/SignupComponent.vue";
-import LogoImage from "../../components/LogoImage.vue";
+import LogoImage from "../../components/layout/LogoImage.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
