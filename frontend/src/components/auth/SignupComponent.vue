@@ -217,6 +217,7 @@ export default {
           this.$router.replace("/matches");
         }
       } catch (err) {
+        console.log("lol");
         this.errorUserName = err;
       }
 

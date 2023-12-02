@@ -22,21 +22,22 @@ export default {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
-    if (response.ok) {
-      if (responseData.token && responseData.username) {
-        localStorage.setItem("accessToken", responseData.Token);
+
+    if (response.status == 200) {
+      console.log(responseData);
+      if (responseData.token && responseData.userName) {
+        localStorage.setItem("accessToken", responseData.token);
         localStorage.setItem("userName", responseData.userName);
         localStorage.setItem("role", responseData.role);
         context.commit("setUser", {
           userName: responseData.userName,
-          accessToken: responseData.Token,
+          accessToken: responseData.token,
         });
 
         context.commit("setRole", responseData.role);
       }
     }
-    if (!response.ok) {
+    if (response.status == 400) {
       const error = new Error(responseData.error);
       throw error;
     }
