@@ -94,7 +94,6 @@ export default {
       }
 
       this.loading = false;
-      window.location.reload();
       this.$router.replace("/matches");
     },
   },

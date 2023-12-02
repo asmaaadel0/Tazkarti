@@ -3,7 +3,9 @@
     <v-img src="@/assets/logo.jpg" alt="Logo" class="header-logo"></v-img>
     <v-app-bar-title class="header-title">Tazkarti</v-app-bar-title>
     <v-spacer></v-spacer>
-    {{ userName }}
+    <v-app-bar-title class="username" v-if="userName"
+      >HI {{ userName }}🎉</v-app-bar-title
+    >
     <v-btn @click="matches" class="btn">Matches</v-btn>
     <v-btn v-if="userName" @click="reservation" class="btn">Reservation</v-btn>
     <v-btn v-if="!userName" @click="signup" class="btn">Sign Up</v-btn>
@@ -14,12 +16,18 @@
 </template>
 <script>
 export default {
-  computed: {
-    userName() {
-      return localStorage.getItem("userName");
-    },
+  data() {
+    return {
+      userName: localStorage.getItem("userName"),
+    };
+  },
+  watch: {
+    $route: "handleRouteChange",
   },
   methods: {
+    handleRouteChange() {
+      this.userName = localStorage.getItem("userName");
+    },
     login() {
       this.$router.push("/login");
     },
@@ -37,7 +45,7 @@ export default {
       localStorage.removeItem("userName");
       localStorage.removeItem("role");
       this.$router.push("/matches");
-      window.location.reload();
+      this.userName = localStorage.getItem("userName");
     },
     editProfile() {
       // Implement edit profile logic
@@ -59,5 +67,11 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-primary);
+}
+.username {
+  color: black;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 </style>
