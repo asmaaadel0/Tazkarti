@@ -119,14 +119,27 @@ userSchema.statics.login = async function(userName, password) {
   return user;
 };
 
-userSchema.statics.getUser = async function(userName) {
-  if (!userName) {
-    throw Error('this fields is required');
+userSchema.statics.getUser = async function(_id) {
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error('no user found !');
   }
 
-  const user = await this.findOne({ userName });
+  return user;
+};
+
+userSchema.statics.editUser = async function(_id, body) {
+  const user = await this.findOneAndUpdate({ _id }, body, { new: true });
   if (!user) {
-    throw Error('incorrect userName !');
+    throw Error('no user found to be updated !');
+  }
+
+  return user;
+};
+userSchema.statics.deleteUser = async function(_id) {
+  const user = await this.deleteOne({ _id });
+  if (!user) {
+    throw Error('no user found to be deleted !');
   }
 
   return user;
