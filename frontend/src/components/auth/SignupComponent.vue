@@ -204,8 +204,7 @@ export default {
       try {
         await this.$store.dispatch("signup", actionPayload);
       } catch (err) {
-        console.log("lol");
-        this.errorUserName = err;
+        this.errorUserName = err.message;
         this.loading = false;
         return;
       }

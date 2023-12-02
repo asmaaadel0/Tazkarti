@@ -88,7 +88,7 @@ export default {
       try {
         await this.$store.dispatch("login", actionPayload);
       } catch (err) {
-        this.error = err;
+        this.error = err.message;
         this.loading = false;
         return;
       }

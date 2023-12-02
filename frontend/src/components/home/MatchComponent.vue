@@ -16,59 +16,41 @@ export default {
   },
   data() {
     return {
-      matches: [
-        {
-          id: 1,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 2,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 3,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 4,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 5,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-      ],
+      loading: false,
+      matches: [],
     };
+  },
+  async created() {
+    if (localStorage.getItem("accessToken")) {
+      this.loading = true;
+      await this.loadMatches();
+    }
+    this.loading = false;
+  },
+  methods: {
+    async loadMatches(title) {
+      this.loading = true;
+      let afterMod = "";
+      if (title == "after") {
+        afterMod = this.after;
+      }
+      try {
+        await this.$store.dispatch("loadAllMatches", {
+          baseurl: this.$baseurl,
+          afterMod: afterMod,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      // this.matches = this.matches.concat(
+      //   this.$store.getters["matches/matches"]
+      // );
+      this.matches = this.$store.getters["matches"];
+      this.loading = false;
+    },
   },
 };
 </script>
