@@ -12,6 +12,7 @@ export default {
       emailAddress: payload.emailAddress,
       role: payload.role,
     };
+    console.log(userInfo);
     const baseurl = payload.baseurl;
 
     const response = await fetch(baseurl + "/api/user/signup", {
@@ -21,6 +22,7 @@ export default {
     });
 
     const responseData = await response.json();
+    console.log(responseData);
     if (response.ok) {
       if (responseData.token && responseData.username) {
         localStorage.setItem("accessToken", responseData.Token);
