@@ -84,7 +84,7 @@
                   label="Address (Optional)"
                   prepend-inner-icon="mdi-map-marker"
                   class="input-label"
-                  v-model="addres"
+                  v-model="address"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
@@ -139,7 +139,7 @@ export default {
       gender: null,
       genderOptions: ["Male", "Female", "Other"],
       city: "",
-      addres: "",
+      address: "",
       email: "",
       selectedRole: null,
 
@@ -172,17 +172,29 @@ export default {
       return true;
     },
     async signup() {
-      console.log(this.username);
-      console.log(this.password);
-      console.log(this.firstName);
-      console.log(this.lastName);
-      console.log(this.birthDate);
-      console.log(this.gender);
-      console.log(this.city);
-      console.log(this.addres);
-      console.log(this.email);
-      console.log(this.selectedRole);
-
+      // console.log(this.username);
+      // console.log(this.password);
+      // console.log(this.firstName);
+      // console.log(this.lastName);
+      // console.log(this.birthDate);
+      // console.log(this.gender);
+      // console.log(this.city);
+      // console.log(this.address);
+      // console.log(this.email);
+      // console.log(this.selectedRole);
+      if (
+        !this.username ||
+        !this.password ||
+        !this.firstName ||
+        !this.lastName ||
+        !this.birthDate ||
+        !this.gender ||
+        !this.city ||
+        !this.email ||
+        !this.selectedRole
+      ) {
+        return;
+      }
       this.loading = true;
       this.errorUserName = "";
       const actionPayload = {
@@ -193,23 +205,19 @@ export default {
         birthDate: this.birthDate,
         gender: this.gender,
         city: this.city,
-        addres: this.addres,
+        address: this.address,
         emailAddress: this.email,
         role: this.selectedRole,
 
         baseurl: this.$baseurl,
       };
       try {
-        const response = await this.$store.dispatch(
-          "auth/signup",
-          actionPayload
-        );
+        const response = await this.$store.dispatch("signup", actionPayload);
         if (response.status == 200) {
           this.$router.replace("/matches");
         }
       } catch (err) {
-        this.errorUserName =
-          "This username is already taken, Try different one";
+        this.errorUserName = err;
       }
 
       this.loading = false;

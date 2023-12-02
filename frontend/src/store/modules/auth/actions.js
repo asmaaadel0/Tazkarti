@@ -41,7 +41,7 @@ export default {
   },
   async login(context, payload) {
     const userInfo = {
-      userName: payload.username,
+      userName: payload.userName,
       password: payload.password,
     };
     const baseurl = payload.baseurl;
@@ -53,6 +53,7 @@ export default {
     });
 
     const responseData = await response.json();
+
     if (response.ok) {
       if (responseData.token && responseData.username) {
         localStorage.setItem("accessToken", responseData.Token);

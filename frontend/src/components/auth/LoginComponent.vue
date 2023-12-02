@@ -74,6 +74,9 @@ export default {
     },
 
     async login() {
+      if (!this.username || !this.password) {
+        return;
+      }
       this.loading = true;
       this.error = "";
       const actionPayload = {
@@ -83,15 +86,12 @@ export default {
         baseurl: this.$baseurl,
       };
       try {
-        const response = await this.$store.dispatch(
-          "auth/login",
-          actionPayload
-        );
+        const response = await this.$store.dispatch("login", actionPayload);
         if (response.status == 200) {
           this.$router.replace("/matches");
         }
       } catch (err) {
-        this.error = "Error in username or password, try again";
+        this.error = err;
       }
 
       this.loading = false;
