@@ -1,16 +1,16 @@
 export default {
   async signup(context, payload) {
     const userInfo = {
-      userName: payload.username,
+      userName: payload.userName,
       password: payload.password,
       firstName: payload.firstName,
       lastName: payload.lastName,
       birthDate: payload.birthDate,
       gender: payload.gender,
       city: payload.city,
-      addres: payload.addres,
+      address: payload.address,
       emailAddress: payload.emailAddress,
-      role: payload.selectedRole,
+      role: payload.role,
     };
     const baseurl = payload.baseurl;
 
