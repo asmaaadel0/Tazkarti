@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const userRoutes = require('./routes/userRouter.js');
+const authRoutes = require('./routes/authRouter.js');
 const matchRoutes = require('./routes/matchRouter.js');
+const userRouter = require('./routes/userRouter.js');
 
 dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 
-app.use('/api/user', userRoutes);
+app.use('/api/user', authRoutes);
+app.use('/api/user', userRouter);
 app.use('/api/match', matchRoutes);
 
 // Enable CORS for all routes

@@ -1,17 +1,17 @@
 const express = require('express');
+const requireAuth = require('../middlewares/requireAuth.js');
 
 const userRouter = express.Router();
+// require auth for all the user routes
+userRouter.use(requireAuth);
 
 const userController = require('../controllers/userController.js');
-const authController = require('../controllers/authController.js');
-
-//login
-userRouter.post('/login', authController.login);
-
-//sign up
-userRouter.post('/signup', authController.signup);
 
 //get the usesr data
-userRouter.get('/getMe', userController.getUser);
+userRouter.get('/getUser/:id', userController.getUser);
+//edit the usesr data
+userRouter.patch('/editUser/:id', userController.editUser);
+//delete the usesr
+userRouter.delete('/deleteUser/:id', userController.deleteUser);
 
 module.exports = userRouter;
