@@ -6,6 +6,8 @@ export default {
   state() {
     return {
       matches: [],
+      hasNext: true,
+      page: 1,
     };
   },
   mutations,

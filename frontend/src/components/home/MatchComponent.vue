@@ -28,16 +28,16 @@ export default {
     this.loading = false;
   },
   methods: {
-    async loadMatches(title) {
+    async loadMatches() {
       this.loading = true;
-      let afterMod = "";
-      if (title == "after") {
-        afterMod = this.after;
-      }
+      let page = this.$store.getters["page"];
+      let hasNext = this.$store.getters["hasNext"];
+
       try {
         await this.$store.dispatch("loadAllMatches", {
           baseurl: this.$baseurl,
-          afterMod: afterMod,
+          page: page,
+          hasNext: hasNext,
         });
       } catch (error) {
         this.error = error.message || "Something went wrong";
@@ -45,10 +45,7 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      // this.matches = this.matches.concat(
-      //   this.$store.getters["matches/matches"]
-      // );
-      this.matches = this.$store.getters["matches"];
+      this.matches = this.matches.concat(this.$store.getters["matches"]);
       this.loading = false;
     },
   },
