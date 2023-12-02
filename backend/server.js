@@ -8,12 +8,10 @@ dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 
-
-
 app.use('/api/user', userRoutes);
 app.use('/api/match', matchRoutes);
 
-// Enable CORS for all routes 
+// Enable CORS for all routes
 app.use(cors());
 const DB = process.env.DATABASE.replace(
   '<password>',

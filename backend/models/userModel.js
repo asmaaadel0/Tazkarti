@@ -110,7 +110,7 @@ userSchema.statics.login = async function(userName, password) {
   if (!user) {
     throw Error('incorrect userName !');
   }
-
+  console.log(user.role);
   const match = await becrypt.compare(password.toString(), user.password);
   console.log(match);
   if (!match) {
