@@ -48,7 +48,7 @@ export default {
       this.userName = localStorage.getItem("userName");
     },
     editProfile() {
-      // Implement edit profile logic
+      this.$router.push("/edit-profile");
     },
   },
 };
