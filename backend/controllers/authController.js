@@ -10,8 +10,10 @@ const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
     const user = await userModel.login(userName, password);
+
     const token = createToken(user._id);
-    return res.status(200).json({ userName, token });
+    const role = user.role;
+    return res.status(200).json({ userName, token, role });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -46,7 +48,7 @@ const signup = async (req, res) => {
       role
     );
     const token = createToken(user._id);
-    res.status(200).json({ userName, token });
+    res.status(200).json({ userName, token, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
