@@ -7,12 +7,14 @@
       <p class="signin-text">Sign in to your account</p>
       <input-form>
         <v-sheet width="320" class="mx-auto">
-          <v-form ref="form">
+          <v-form ref="form" @submit.prevent="login()">
             <v-text-field
               prepend-inner-icon="mdi-account-outline"
               label="Username"
               required
               class="input-label"
+              v-model="username"
+              :rules="[validateUsername]"
             ></v-text-field>
             <v-text-field
               type="password"
@@ -20,8 +22,15 @@
               prepend-inner-icon="mdi-lock-outline"
               label="Password"
               required
+              v-model="password"
+              :rules="[validatePassword]"
             ></v-text-field>
-            <v-btn type="submit" block class="mt-2 btn">Sign In</v-btn>
+            <p class="error" v-if="error != ''">
+              {{ error }}
+            </p>
+            <v-btn type="submit" block class="mt-2 btn" :loading="loading"
+              >Sign In</v-btn
+            >
           </v-form>
           <hr class="form-separator" />
 
@@ -36,9 +45,67 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+
+      error: "",
+      loading: false,
+    };
+  },
+  methods: {
+    validateUsername(value) {
+      if (!value) {
+        return "Username is required";
+      }
+      return true;
+    },
+    validatePassword(value) {
+      if (!value) {
+        return "Password is required";
+      }
+      if (value.length < 8) {
+        return "Password must be more than 8 charachters";
+      }
+      return true;
+    },
+
+    async login() {
+      if (!this.username || !this.password) {
+        return;
+      }
+      this.loading = true;
+      this.error = "";
+      const actionPayload = {
+        userName: this.username,
+        password: this.password,
+
+        baseurl: this.$baseurl,
+      };
+      try {
+        const response = await this.$store.dispatch("login", actionPayload);
+        if (response.status == 200) {
+          this.$router.replace("/matches");
+        }
+      } catch (err) {
+        this.error = err;
+      }
+
+      this.loading = false;
+    },
+  },
+};
+</script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css?family=Inter");
+.error {
+  color: red;
+  font-size: 1rem;
+}
 .header-box {
   margin: 1rem;
 }

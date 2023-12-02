@@ -7,4 +7,8 @@ import { loadFonts } from "./plugins/webfontloader";
 
 loadFonts();
 
-createApp(App).use(router).use(store).use(vuetify).mount("#app");
+const app = createApp(App);
+
+app.config.globalProperties.$baseurl = "http://localhost:3000";
+
+app.use(router).use(store).use(vuetify).mount("#app");

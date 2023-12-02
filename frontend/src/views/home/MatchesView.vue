@@ -1,16 +1,27 @@
 <template>
-  <div class="home">
-    <v-img
-      src="@/assets/staduim5.png"
-      alt="Home Image"
-      class="home-image"
-    ></v-img>
-    <div class="text-block">
-      <h1>Welcome To Tazkarti Website</h1>
-      <p>Here you can reserve your tickets.</p>
+  <v-container fluid>
+    <div class="home">
+      <v-img
+        src="@/assets/staduim5.png"
+        alt="Home Image"
+        class="home-image"
+      ></v-img>
+      <div class="text-block">
+        <h1>Welcome To Tazkarti Website</h1>
+        <p>Here you can reserve your tickets.</p>
+      </div>
     </div>
-  </div>
+    <match-component></match-component>
+  </v-container>
 </template>
+<script>
+import MatchComponent from "../../components/home/MatchComponent.vue";
+export default {
+  components: {
+    MatchComponent,
+  },
+};
+</script>
 
 <style scoped>
 .home-image {
