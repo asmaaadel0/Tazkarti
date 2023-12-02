@@ -12,7 +12,6 @@ export default {
       emailAddress: payload.emailAddress,
       role: payload.role,
     };
-    console.log(userInfo);
     const baseurl = payload.baseurl;
 
     const response = await fetch(baseurl + "/api/user/signup", {
@@ -22,26 +21,24 @@ export default {
     });
 
     const responseData = await response.json();
-
     if (response.status == 200) {
-      console.log(responseData);
-      if (responseData.token && responseData.userName) {
-        localStorage.setItem("accessToken", responseData.token);
-        localStorage.setItem("userName", responseData.userName);
-        localStorage.setItem("role", responseData.role);
-        context.commit("setUser", {
-          userName: responseData.userName,
-          accessToken: responseData.token,
-        });
+      localStorage.setItem("accessToken", responseData.token);
+      localStorage.setItem("userName", responseData.userName);
+      localStorage.setItem("role", responseData.role);
+      context.commit("setUser", {
+        userName: responseData.userName,
+        accessToken: responseData.token,
+      });
 
-        context.commit("setRole", responseData.role);
-      }
+      // context.commit("setRole", responseData.role);
     }
+
     if (response.status == 400) {
       const error = new Error(responseData.error);
       throw error;
     }
   },
+
   async login(context, payload) {
     const userInfo = {
       userName: payload.userName,

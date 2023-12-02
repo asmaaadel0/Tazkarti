@@ -212,14 +212,14 @@ export default {
         baseurl: this.$baseurl,
       };
       try {
-        const response = await this.$store.dispatch("signup", actionPayload);
-        if (response.status == 200) {
-          this.$router.replace("/matches");
-        }
+        await this.$store.dispatch("signup", actionPayload);
       } catch (err) {
         console.log("lol");
         this.errorUserName = err;
+        this.loading = false;
+        return;
       }
+      this.$router.replace("/matches");
 
       this.loading = false;
     },
