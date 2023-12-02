@@ -28,9 +28,10 @@ export default {
       context.commit("setUser", {
         userName: responseData.userName,
         accessToken: responseData.token,
+        role: responseData.role,
       });
 
-      // context.commit("setRole", responseData.role);
+      context.commit("setRole", responseData.role);
     }
 
     if (response.status == 400) {
@@ -53,21 +54,18 @@ export default {
     });
 
     const responseData = await response.json();
-
-    if (response.ok) {
-      if (responseData.token && responseData.username) {
-        localStorage.setItem("accessToken", responseData.Token);
-        localStorage.setItem("userName", responseData.userName);
-        localStorage.setItem("setRole", responseData.role);
-        context.commit("setUser", {
-          userName: responseData.userName,
-          accessToken: responseData.Token,
-          response: response,
-        });
-        context.commit("setRole", responseData.role);
-      }
+    if (response.status == 200) {
+      localStorage.setItem("accessToken", responseData.token);
+      localStorage.setItem("userName", responseData.userName);
+      localStorage.setItem("role", responseData.role);
+      context.commit("setUser", {
+        userName: responseData.userName,
+        accessToken: responseData.token,
+        role: responseData.role,
+      });
     }
-    if (!response.ok) {
+
+    if (response.status == 400) {
       const error = new Error(responseData.error);
       throw error;
     }

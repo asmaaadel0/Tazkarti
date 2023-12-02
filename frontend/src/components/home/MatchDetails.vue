@@ -1,7 +1,7 @@
 <template>
   <v-card class="match-card">
     <v-card-text class="text-center match-day">
-      <h3>{{ match.date }}</h3>
+      <h3>{{ date }}</h3>
     </v-card-text>
     <v-card-text class="text-center team-info">
       <v-img
@@ -9,7 +9,7 @@
         alt="Team 1"
         class="team-image"
       ></v-img>
-      <p class="team-name">{{ match.team1.name }}</p>
+      <p class="team-name">{{ match.homeTeam }}</p>
     </v-card-text>
     <v-card-text class="text-center team-info">
       <v-img
@@ -17,7 +17,7 @@
         alt="Team 2"
         class="team-image"
       ></v-img>
-      <p class="team-name">{{ match.team2.name }}</p>
+      <p class="team-name">{{ match.awayTeam }}</p>
 
       <v-btn block @click="showDetails()" class="margin-top"
         >View Details</v-btn
@@ -28,12 +28,16 @@
         <v-card-title class="details-title">Match Details</v-card-title>
         <v-card-text class="center">
           <p class="details-text"><b>Match Venue: </b>{{ match.venue }}</p>
+          <p class="details-text"><b>Date: </b>{{ date }}</p>
+          <p class="details-text"><b>Time: </b>{{ time }}</p>
           <p class="details-text">
-            <b>Date & Time: </b>{{ match.date }} - {{ match.time }}
+            <b>Main Referee: </b>{{ match.mainReferee }}
           </p>
-          <p class="details-text"><b>Main Referee: </b>{{ match.referee }}</p>
           <p class="details-text">
-            <b>Two Linesmen: </b>{{ match.linesmen.join(", ") }}
+            <b>First Linesman: </b>{{ match.firstLinesman }}
+          </p>
+          <p class="details-text">
+            <b>Second Linesman: </b>{{ match.secondLinesman }}
           </p>
         </v-card-text>
         <v-card-actions>
@@ -56,6 +60,22 @@ export default {
     return {
       dialog: false,
     };
+  },
+  computed: {
+    date() {
+      const dateTime = new Date(this.match.dateTime);
+      const year = dateTime.getFullYear();
+      const month = dateTime.getMonth() + 1;
+      const day = dateTime.getDate();
+      return day + "-" + month + "-" + year;
+    },
+    time() {
+      const dateTime = new Date(this.match.dateTime);
+      const hours = dateTime.getHours();
+      const minutes = dateTime.getMinutes();
+      const seconds = dateTime.getSeconds();
+      return hours + ":" + minutes + ":" + seconds;
+    },
   },
   methods: {
     showDetails() {

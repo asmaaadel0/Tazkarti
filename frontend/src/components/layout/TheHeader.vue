@@ -3,26 +3,31 @@
     <v-img src="@/assets/logo.jpg" alt="Logo" class="header-logo"></v-img>
     <v-app-bar-title class="header-title">Tazkarti</v-app-bar-title>
     <v-spacer></v-spacer>
+    <v-app-bar-title class="username" v-if="userName"
+      >HI {{ userName }}🎉</v-app-bar-title
+    >
     <v-btn @click="matches" class="btn">Matches</v-btn>
-    <v-btn v-if="isLoggedIn" @click="reservation" class="btn"
-      >Reservation</v-btn
-    >
-    <v-btn v-if="!isLoggedIn" @click="signup" class="btn">Sign Up</v-btn>
-    <v-btn v-if="!isLoggedIn" @click="login" class="btn">Login</v-btn>
-    <v-btn v-if="isLoggedIn" @click="editProfile" class="btn"
-      >Edit Profile</v-btn
-    >
-    <v-btn v-if="isLoggedIn" @click="logout" class="btn">Logout</v-btn>
+    <v-btn v-if="userName" @click="reservation" class="btn">Reservation</v-btn>
+    <v-btn v-if="!userName" @click="signup" class="btn">Sign Up</v-btn>
+    <v-btn v-if="!userName" @click="login" class="btn">Login</v-btn>
+    <v-btn v-if="userName" @click="editProfile" class="btn">Edit Profile</v-btn>
+    <v-btn v-if="userName" @click="logout" class="btn">Logout</v-btn>
   </v-app-bar>
 </template>
 <script>
 export default {
   data() {
     return {
-      isLoggedIn: false,
+      userName: localStorage.getItem("userName"),
     };
   },
+  watch: {
+    $route: "handleRouteChange",
+  },
   methods: {
+    handleRouteChange() {
+      this.userName = localStorage.getItem("userName");
+    },
     login() {
       this.$router.push("/login");
     },
@@ -36,9 +41,11 @@ export default {
       this.$router.push("/reservation");
     },
     logout() {
-      localStorage.setItem("accessToken", "");
-      localStorage.setItem("userName", "");
-      localStorage.setItem("role", "");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("role");
+      this.$router.push("/matches");
+      this.userName = localStorage.getItem("userName");
     },
     editProfile() {
       // Implement edit profile logic
@@ -60,5 +67,11 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-primary);
+}
+.username {
+  color: black;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 </style>
