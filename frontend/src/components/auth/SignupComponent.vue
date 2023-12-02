@@ -137,7 +137,7 @@ export default {
       lastName: "",
       birthDate: "",
       gender: null,
-      genderOptions: ["Male", "Female", "Other"],
+      genderOptions: ["male", "female"],
       city: "",
       address: "",
       email: "",
