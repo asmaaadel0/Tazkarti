@@ -1,15 +1,18 @@
 import { createStore } from "vuex";
 import authModule from "./modules/auth/index.js";
+import matchesModule from "./modules/matches/index.js";
 
 const store = createStore({
   modules: {
     auth: authModule,
+    matches: matchesModule,
   },
   state() {
     return {
       userName: localStorage.getItem("userName"),
       accessToken: localStorage.getItem("accessToken"),
       role: localStorage.getItem("role"),
+      id: localStorage.getItem("id"),
     };
   },
   getters: {

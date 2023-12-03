@@ -110,17 +110,7 @@ userSchema.statics.login = async function(userName, password) {
   if (!user) {
     throw Error('incorrect userName !');
   }
-  // await becrypt.compare(password.toString(), user.password, (err, result) => {
-  //   if (err) {
-  //     throw Error("can't compare passwords");
-  //   }
-  //   if (result) {
-  //     console.log('Passwords match.');
-  //   } else {
-  //     console.log('Passwords do not match.');
-  //     throw Error('Passwords do not match.');
-  //   }
-  // });
+  console.log(user.role);
   const match = await becrypt.compare(password.toString(), user.password);
   console.log(match);
   if (!match) {
@@ -128,6 +118,55 @@ userSchema.statics.login = async function(userName, password) {
   }
   return user;
 };
+
+userSchema.statics.getUser = async function(_id) {
+  const user = await this.findOne({ _id });
+  if (!user) {
+    throw Error('no user found !');
+  }
+
+  return user;
+};
+
+userSchema.statics.editUser = async function(_id, body) {
+  const user = await this.findOneAndUpdate({ _id }, body, { new: true });
+  if (!user) {
+    throw Error('no user found to be updated !');
+  }
+
+  return user;
+};
+userSchema.statics.deleteUser = async function(_id) {
+  const user = await this.deleteOne({ _id });
+  if (!user) {
+    throw Error('no user found to be deleted !');
+  }
+
+  return user;
+};
+
+userSchema.statics.getunAunothorizedUsers = async function() {
+  const user = await this.find({ isPending: true });
+  if (!user) {
+    throw Error('no pending users  found !');
+  }
+
+  return user;
+};
+
+userSchema.statics.approveUser = async function(_id) {
+  const user = await this.findOneAndUpdate(
+    { _id },
+    { isPending: false },
+    { new: true }
+  );
+  if (!user) {
+    throw Error('no user  found !');
+  }
+
+  return user;
+};
+
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;

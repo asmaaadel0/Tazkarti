@@ -16,59 +16,46 @@ export default {
   },
   data() {
     return {
-      matches: [
-        {
-          id: 1,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 2,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 3,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 4,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-        {
-          id: 5,
-          date: "2023-12-01",
-          team1: { name: "Team A", image: "../../assets/teamA.png" },
-          team2: { name: "Team B", image: "../../assets/teamA.png" },
-          time: "01:00",
-          venue: "Cairo",
-          referee: "Ahmed",
-          linesmen: ["Adel", "Osama"],
-        },
-      ],
+      loading: false,
+      matches: [],
     };
+  },
+  async created() {
+    if (localStorage.getItem("accessToken")) {
+      this.loading = true;
+      await this.loadMatches();
+      // let hasNext = this.$store.getters["hasNext"];
+      // console.log("finish1");
+      // while (hasNext != false) {
+      //   console.log("finish2");
+      //   await this.loadMatches();
+      //   hasNext = this.$store.getters["hasNext"];
+      // }
+      // console.log("finish3");
+    }
+    this.loading = false;
+  },
+  methods: {
+    async loadMatches() {
+      this.loading = true;
+      let page = this.$store.getters["page"];
+      let hasNext = this.$store.getters["hasNext"];
+
+      try {
+        await this.$store.dispatch("loadAllMatches", {
+          baseurl: this.$baseurl,
+          page: page,
+          hasNext: hasNext,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.matches = this.matches.concat(this.$store.getters["matches"]);
+      this.loading = false;
+    },
   },
 };
 </script>

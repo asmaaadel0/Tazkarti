@@ -5,7 +5,7 @@
     </div>
     <div class="form-box">
       <p class="signin-text">Sign in to your account</p>
-      <input-form>
+      <v-form>
         <v-sheet width="320" class="mx-auto">
           <v-form ref="form" @submit.prevent="login()">
             <v-text-field
@@ -40,7 +40,7 @@
               >Sign Up</router-link
             >
           </p>
-        </v-sheet></input-form
+        </v-sheet></v-form
       >
     </div>
   </div>
@@ -74,6 +74,9 @@ export default {
     },
 
     async login() {
+      if (!this.username || !this.password) {
+        return;
+      }
       this.loading = true;
       this.error = "";
       const actionPayload = {
@@ -83,18 +86,15 @@ export default {
         baseurl: this.$baseurl,
       };
       try {
-        const response = await this.$store.dispatch(
-          "auth/login",
-          actionPayload
-        );
-        if (response.status == 200) {
-          this.$router.replace("/matches");
-        }
+        await this.$store.dispatch("login", actionPayload);
       } catch (err) {
-        this.error = "Error in username or password, try again";
+        this.error = err.message;
+        this.loading = false;
+        return;
       }
 
       this.loading = false;
+      this.$router.replace("/matches");
     },
   },
 };

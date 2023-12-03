@@ -1,17 +1,22 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const userRoutes = require('./routes/userRouter.js');
+const cors = require('cors');
+const authRoutes = require('./routes/authRouter.js');
 const matchRoutes = require('./routes/matchRouter.js');
 const stadiumRoutes = require('./routes/stadiumRouter.js');
+const userRouter = require('./routes/userRouter.js');
 
 dotenv.config({ path: './config.env' });
 
 const app = require('./app');
 
-app.use('/api/user', userRoutes);
+app.use('/api/user', authRoutes);
+app.use('/api/user', userRouter);
 app.use('/api/match', matchRoutes);
 app.use('/api/stadium', stadiumRoutes);
 
+// Enable CORS for all routes
+app.use(cors());
 const DB = process.env.DATABASE.replace(
   '<password>',
   process.env.DATABASE_PASSWORD
