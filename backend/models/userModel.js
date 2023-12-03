@@ -144,6 +144,29 @@ userSchema.statics.deleteUser = async function(_id) {
 
   return user;
 };
+
+userSchema.statics.getunAunothorizedUsers = async function() {
+  const user = await this.find({ isPending: true });
+  if (!user) {
+    throw Error('no pending users  found !');
+  }
+
+  return user;
+};
+
+userSchema.statics.approveUser = async function(_id) {
+  const user = await this.findOneAndUpdate(
+    { _id },
+    { isPending: false },
+    { new: true }
+  );
+  if (!user) {
+    throw Error('no user  found !');
+  }
+
+  return user;
+};
+
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;

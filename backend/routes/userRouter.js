@@ -13,5 +13,9 @@ userRouter.get('/getUser/:id', userController.getUser);
 userRouter.patch('/editUser/:id', userController.editUser);
 //delete the usesr
 userRouter.delete('/deleteUser/:id', userController.deleteUser);
+//get the usesr data
+userRouter.get('/unAuthorizedUers', userController.getunAunothorizedUsers);
+
+userRouter.patch('/approveUser/:id', userController.approveUser);
 
 module.exports = userRouter;

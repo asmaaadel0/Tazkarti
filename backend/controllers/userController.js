@@ -38,4 +38,31 @@ const editUser = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
-module.exports = { getUser, deleteUser, editUser };
+const getunAunothorizedUsers = async (req, res) => {
+  try {
+    const users = await userModel.getunAunothorizedUsers();
+    return res.status(200).json({
+      users
+    });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+const approveUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await userModel.approveUser(id);
+    return res.status(200).json({
+      user
+    });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
+module.exports = {
+  getUser,
+  deleteUser,
+  editUser,
+  getunAunothorizedUsers,
+  approveUser
+};
