@@ -148,6 +148,11 @@ export default {
     }
     this.loading = false;
   },
+  beforeMount() {
+    if (!localStorage.getItem("accessToken")) {
+      this.$router.push("/");
+    }
+  },
   methods: {
     validateInput(value) {
       if (!value) {

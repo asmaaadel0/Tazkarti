@@ -1,0 +1,6 @@
+{
+    "_id": "656d109b9bab3b1e5862566c",
+    "userName": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTZkMTA5YjliYWIzYjFlNTg2MjU2NmMiLCJpYXQiOjE3MDE2NDY0OTEsImV4cCI6MTcwMTkwNTY5MX0.IOy5Yi3zE2wGWBsUSUvIpeaIzQsq2rOQ3xvcBYoFTGA",
+    "role": "admin"
+}

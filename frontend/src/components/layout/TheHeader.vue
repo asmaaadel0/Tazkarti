@@ -25,6 +25,12 @@
         <v-btn @click="editProfile" class="btn">Edit Profile</v-btn>
         <v-btn @click="logout" class="btn">Logout</v-btn>
       </div>
+      <div v-if="role == 'admin'">
+        <v-btn @click="showUsers" class="btn">Users</v-btn>
+        <v-btn @click="showRequests" class="btn">Requests</v-btn>
+        <v-btn @click="editProfile" class="btn">Edit Profile</v-btn>
+        <v-btn @click="logout" class="btn">Logout</v-btn>
+      </div>
     </v-app-bar>
     <add-match
       :addMatchDialog="addMatchDialog"
@@ -73,6 +79,12 @@ export default {
     },
     reservation() {
       this.$router.push("/reservation");
+    },
+    showUsers() {
+      this.$router.push("/users");
+    },
+    showRequests() {
+      this.$router.push("/requests");
     },
     showAddMatch() {
       this.addMatchDialog = true;
