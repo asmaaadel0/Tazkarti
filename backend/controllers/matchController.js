@@ -45,6 +45,7 @@ const createMatch = async (req, res) => {
     .save()
     .then(result => {
       res.status(200).send({ msg: 'Match added successfully!' });
+      console.log(match);
     })
     .catch(err => {
       res.status(500).send({ err: err.message });

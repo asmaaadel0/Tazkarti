@@ -1,6 +1,8 @@
 const express = require('express');
+// const requireAuth = require('../middlewares/requireAuth.js');
 
 const matchRouter = express.Router();
+// matchRouter.use('',requireAuth);
 
 const matchController = require('../controllers/matchController.js');
 
