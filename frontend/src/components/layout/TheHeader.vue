@@ -20,7 +20,7 @@
     </div>
     <div v-if="role == 'manager'">
       <v-btn @click="addMatch" class="btn">Add Matche</v-btn>
-      <v-btn @click="reservation" class="btn">Add Stadium</v-btn>
+      <v-btn @click="addStadium" class="btn">Add Stadium</v-btn>
       <v-btn @click="editProfile" class="btn">Edit Profile</v-btn>
       <v-btn @click="logout" class="btn">Logout</v-btn>
     </div>
@@ -32,6 +32,7 @@ export default {
     return {
       userName: localStorage.getItem("userName"),
       role: localStorage.getItem("role"),
+      id: localStorage.getItem("id"),
     };
   },
   watch: {
@@ -54,10 +55,13 @@ export default {
     reservation() {
       this.$router.push("/reservation");
     },
+    addMatch() {},
+    addStadium() {},
     logout() {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
       localStorage.removeItem("role");
+      localStorage.removeItem("id");
       this.$router.push("/matches");
       this.userName = localStorage.getItem("userName");
       this.role = localStorage.getItem("role");

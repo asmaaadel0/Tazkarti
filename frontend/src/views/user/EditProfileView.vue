@@ -144,7 +144,7 @@ export default {
   async created() {
     if (localStorage.getItem("accessToken")) {
       this.loading = true;
-      // await this.getUser();
+      await this.getUser();
     }
     this.loading = false;
   },
