@@ -38,14 +38,23 @@
             </p>
             <v-col cols="12"> </v-col>
 
-            <v-card-actions>
-              <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn type="submit" class="btn" block :loading="loading"
-                >Add Staduim</v-btn
-              >
-            </v-card-actions>
+            <div class="seats">
+              <v-icon
+                v-for="count in counts"
+                :key="count"
+                icon="mdi-seat"
+                size="large"
+                color="success"
+              ></v-icon>
+            </div>
           </v-row>
+          <v-card-actions>
+            <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn type="submit" class="btn" block :loading="loading"
+              >Add Staduim</v-btn
+            >
+          </v-card-actions>
         </v-form>
       </v-card-text>
     </v-card>
@@ -67,6 +76,7 @@ export default {
   data() {
     return {
       dialog: this.addStaduimDialog,
+      counts: 10,
 
       homeTeam: "",
       awayTeam: "",
@@ -91,6 +101,17 @@ export default {
 </script>
 
 <style scoped>
+.seats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  align-content: flex-start;
+  gap: 10px;
+  margin: auto;
+  margin-bottom: 3rem;
+}
 .btn,
 .details-title {
   color: var(--color-primary);

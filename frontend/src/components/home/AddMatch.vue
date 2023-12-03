@@ -93,15 +93,14 @@
               {{ errorUserName }}
             </p>
             <v-col cols="12"> </v-col>
-
-            <v-card-actions>
-              <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
-              <v-spacer></v-spacer>
-              <v-btn type="submit" class="btn" block :loading="loading"
-                >Add Match</v-btn
-              >
-            </v-card-actions>
           </v-row>
+          <v-card-actions>
+            <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn type="submit" class="btn" block :loading="loading"
+              >Add Match</v-btn
+            >
+          </v-card-actions>
         </v-form>
       </v-card-text>
     </v-card>
