@@ -24,6 +24,14 @@ export default {
     if (localStorage.getItem("accessToken")) {
       this.loading = true;
       await this.loadMatches();
+      // let hasNext = this.$store.getters["hasNext"];
+      // console.log("finish1");
+      // while (hasNext != false) {
+      //   console.log("finish2");
+      //   await this.loadMatches();
+      //   hasNext = this.$store.getters["hasNext"];
+      // }
+      // console.log("finish3");
     }
     this.loading = false;
   },

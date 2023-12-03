@@ -29,7 +29,6 @@ export default {
             mainReferee: responseData.matches[i].mainReferee,
             firstLinesman: responseData.matches[i].firstLinesman,
             secondLinesman: responseData.matches[i].secondLinesman,
-            __v: responseData.matches[i].__v,
           };
           matches.push(match);
         }

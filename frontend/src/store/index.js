@@ -12,6 +12,7 @@ const store = createStore({
       userName: localStorage.getItem("userName"),
       accessToken: localStorage.getItem("accessToken"),
       role: localStorage.getItem("role"),
+      id: localStorage.getItem("id"),
     };
   },
   getters: {
