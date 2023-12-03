@@ -13,7 +13,8 @@ const login = async (req, res) => {
 
     const token = createToken(user._id);
     const role = user.role;
-    return res.status(200).json({ userName, token, role });
+    const _id = user._id;
+    return res.status(200).json({ _id, userName, token, role });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -48,7 +49,8 @@ const signup = async (req, res) => {
       role
     );
     const token = createToken(user._id);
-    res.status(200).json({ userName, token, role });
+    const _id = user._id;
+    res.status(200).json({ _id, userName, token, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
