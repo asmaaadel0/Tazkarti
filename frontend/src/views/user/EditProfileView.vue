@@ -129,12 +129,14 @@ export default {
         firstName: "",
         lastName: "",
         birthDate: "",
-        gender: "",
+        gender: null,
         city: "",
         emailAddress: "asdfg",
         role: "",
         createdIn: "",
       },
+      genderOptions: ["male", "female"],
+      errorUserName: "",
 
       loading: false,
     };
@@ -147,6 +149,12 @@ export default {
     this.loading = false;
   },
   methods: {
+    validateInput(value) {
+      if (!value) {
+        return "This field is required";
+      }
+      return true;
+    },
     async getUser() {
       this.loading = true;
 
