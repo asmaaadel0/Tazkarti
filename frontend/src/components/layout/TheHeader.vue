@@ -21,7 +21,7 @@
       </div>
       <div v-if="role == 'manager'">
         <v-btn @click="showAddMatch" class="btn">Add Matche</v-btn>
-        <v-btn @click="addStadium" class="btn">Add Stadium</v-btn>
+        <v-btn @click="showAddStaduim" class="btn">Add Stadium</v-btn>
         <v-btn @click="editProfile" class="btn">Edit Profile</v-btn>
         <v-btn @click="logout" class="btn">Logout</v-btn>
       </div>
@@ -30,13 +30,19 @@
       :addMatchDialog="addMatchDialog"
       @close-match="closeAddMatch"
     ></add-match>
+    <add-staduim
+      :addStaduimDialog="addStaduimDialog"
+      @close-staduim="closeAddStaduim"
+    ></add-staduim>
   </div>
 </template>
 <script>
 import AddMatch from "../home/AddMatch.vue";
+import AddStaduim from "../home/AddStaduim.vue";
 export default {
   components: {
     AddMatch,
+    AddStaduim,
   },
   data() {
     return {
@@ -45,6 +51,7 @@ export default {
       id: localStorage.getItem("id"),
 
       addMatchDialog: false,
+      addStaduimDialog: false,
     };
   },
   watch: {
@@ -72,6 +79,12 @@ export default {
     },
     closeAddMatch() {
       this.addMatchDialog = false;
+    },
+    showAddStaduim() {
+      this.addStaduimDialog = true;
+    },
+    closeAddStaduim() {
+      this.addStaduimDialog = false;
     },
     addStadium() {},
     logout() {

@@ -98,7 +98,7 @@
               <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
               <v-spacer></v-spacer>
               <v-btn type="submit" class="btn" block :loading="loading"
-                >Sign Up</v-btn
+                >Add Match</v-btn
               >
             </v-card-actions>
           </v-row>
@@ -114,9 +114,6 @@ export default {
       type: Boolean,
       required: true,
     },
-  },
-  created() {
-    console.log(this.addMatchDialog);
   },
   watch: {
     addMatchDialog(newVal) {
@@ -150,7 +147,8 @@ export default {
 </script>
 
 <style scoped>
-.btn {
+.btn,
+.details-title {
   color: var(--color-primary);
 }
 </style>
