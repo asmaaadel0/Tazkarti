@@ -6,6 +6,7 @@ export default {
   state() {
     return {
       matches: [],
+      staduims: [],
       hasNext: true,
       page: 1,
     };

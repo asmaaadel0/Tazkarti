@@ -2,7 +2,7 @@
   <v-container fluid>
     <div class="home">
       <v-img
-        src="@/assets/staduim5.png"
+        src="@/assets/staduim2.jpg"
         alt="Home Image"
         class="home-image"
       ></v-img>
@@ -11,14 +11,14 @@
         <p>Here you can reserve your tickets.</p>
       </div>
     </div>
-    <match-component></match-component>
+    <staduim-component></staduim-component>
   </v-container>
 </template>
 <script>
-import MatchComponent from "../../components/home/MatchComponent.vue";
+import StaduimComponent from "../../components/home/StaduimComponent.vue";
 export default {
   components: {
-    MatchComponent,
+    StaduimComponent,
   },
 };
 </script>
@@ -33,7 +33,7 @@ export default {
   filter: brightness(60%);
   border-radius: 50px;
   display: block;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 .home {
   position: relative;

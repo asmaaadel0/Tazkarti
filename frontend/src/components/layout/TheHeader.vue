@@ -9,6 +9,7 @@
       >
       <div v-if="!role | (role == 'fan')">
         <v-btn @click="matches" class="btn">Matches</v-btn>
+        <v-btn @click="staduims" class="btn">Staduims</v-btn>
         <v-btn v-if="userName" @click="reservation" class="btn"
           >Reservation</v-btn
         >
@@ -76,6 +77,9 @@ export default {
     },
     matches() {
       this.$router.push("/matches");
+    },
+    staduims() {
+      this.$router.push("/staduims");
     },
     reservation() {
       this.$router.push("/reservation");
