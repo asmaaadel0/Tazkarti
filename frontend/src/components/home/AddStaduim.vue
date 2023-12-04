@@ -53,21 +53,24 @@
                 v-model="rowSeats"
               ></v-text-field>
             </v-col>
-            <p class="error" v-if="error != ''">
-              {{ error }}
-            </p>
             <v-col cols="12"> </v-col>
-
-            <div class="seats">
+            <v-col></v-col>
+            <v-col>
               <v-icon
-                v-for="count in counts"
-                :key="count"
-                icon="mdi-seat"
+                v-for="k in counts"
+                :key="k"
+                class="seat-icon"
                 size="large"
                 color="success"
-              ></v-icon>
-            </div>
+                >mdi-seat</v-icon
+              >
+            </v-col>
+            <v-col></v-col>
           </v-row>
+          <v-alert v-if="confirmed" shaped type="success">
+            Stadium is added successfully
+          </v-alert>
+          <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
           <v-card-actions>
             <v-btn @click="closeAddStaduim" class="btn">Close</v-btn>
             <v-spacer></v-spacer>
@@ -89,6 +92,9 @@ export default {
       required: true,
     },
   },
+  created() {
+    this.confirmed = false;
+  },
   watch: {
     addStaduimDialog(newVal) {
       this.dialog = newVal;
@@ -97,10 +103,11 @@ export default {
   data() {
     return {
       dialog: this.addStaduimDialog,
-      counts: 10,
+      // counts: 10,
 
       error: "",
       loading: false,
+      confirmed: false,
 
       name: "",
       city: "",
@@ -108,6 +115,11 @@ export default {
       rows: "",
       rowSeats: "",
     };
+  },
+  computed: {
+    counts() {
+      return this.rows * this.rowSeats;
+    },
   },
   methods: {
     showAddStaduim() {
@@ -118,12 +130,27 @@ export default {
       this.dialog = false;
     },
     validateInput(value) {
+      this.confirmed = false;
       if (!value) {
         return "This Field is Required";
       }
       return true;
     },
     async addStaduim() {
+      if (this.rowSeats > 10) {
+        this.error = "max number of seats per row is 10";
+        return;
+      } else if (this.rowSeats < 5) {
+        this.error = "min number of seats per row is 5";
+        return;
+      }
+      if (this.rows > 10) {
+        this.error = "max number of row is 10";
+        return;
+      } else if (this.rowSeats < 1) {
+        this.error = "min number of row is 1";
+        return;
+      }
       if (
         !this.name ||
         !this.city ||
@@ -154,7 +181,7 @@ export default {
       }
 
       this.loading = false;
-      this.closeAddStaduim();
+      this.confirmed = true;
     },
   },
 };

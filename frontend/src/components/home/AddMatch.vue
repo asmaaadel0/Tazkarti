@@ -82,11 +82,12 @@
                 :rules="[validateInput]"
               ></v-text-field>
             </v-col>
-            <p class="error" v-if="error != ''">
-              {{ error }}
-            </p>
             <v-col cols="12"> </v-col>
           </v-row>
+          <v-alert v-if="confirmed" shaped type="success">
+            Stadium is added successfully
+          </v-alert>
+          <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
           <v-card-actions>
             <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
             <v-spacer></v-spacer>
@@ -128,7 +129,11 @@ export default {
       error: "",
 
       loading: false,
+      confirmed: false,
     };
+  },
+  created() {
+    this.confirmed = false;
   },
   methods: {
     showAddMatch() {
@@ -139,6 +144,7 @@ export default {
       this.dialog = false;
     },
     validateInput(value) {
+      this.confirmed = false;
       if (!value) {
         return "This Field is Required";
       }
@@ -181,7 +187,7 @@ export default {
       }
 
       this.loading = false;
-      this.closeAddMatch();
+      this.confirmed = true;
     },
   },
 };
