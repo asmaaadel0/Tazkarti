@@ -82,7 +82,7 @@
         >
         <v-col cols="12">
           <v-alert v-if="confirmed" shaped type="success">
-            Stadium is added successfully
+            Approved successfully
           </v-alert>
           <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
         </v-col>

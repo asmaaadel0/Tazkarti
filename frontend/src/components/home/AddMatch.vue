@@ -85,7 +85,7 @@
             <v-col cols="12"> </v-col>
           </v-row>
           <v-alert v-if="confirmed" shaped type="success">
-            Stadium is added successfully
+            Match is added successfully
           </v-alert>
           <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
           <v-card-actions>

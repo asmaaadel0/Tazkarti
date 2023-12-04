@@ -170,7 +170,6 @@ export default {
     const responseData = await response.json();
     if (response.status == 200) {
       context.commit("setDone", true);
-      console.log("done");
     }
 
     if (response.status == 400) {
@@ -195,7 +194,6 @@ export default {
     const responseData = await response.json();
     if (response.status == 200) {
       context.commit("setDone", true);
-      console.log("done");
     }
 
     if (response.status == 400) {
