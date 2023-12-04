@@ -38,14 +38,14 @@ export default {
   methods: {
     async loadMatches() {
       this.loading = true;
-      let page = this.$store.getters["page"];
-      let hasNext = this.$store.getters["hasNext"];
+      // let page = this.$store.getters["page"];
+      // let hasNext = this.$store.getters["hasNext"];
 
       try {
         await this.$store.dispatch("loadAllMatches", {
           baseurl: this.$baseurl,
-          page: page,
-          hasNext: hasNext,
+          // page: page,
+          // hasNext: hasNext,
         });
       } catch (error) {
         this.error = error.message || "Something went wrong";
