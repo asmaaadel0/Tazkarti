@@ -26,6 +26,7 @@ export default {
           mainReferee: responseData.matches[i].mainReferee,
           firstLinesman: responseData.matches[i].firstLinesman,
           secondLinesman: responseData.matches[i].secondLinesman,
+          ticketPrice: responseData.matches[i].ticketPrice,
         };
         matches.push(match);
       }

@@ -34,9 +34,7 @@
       <v-btn block @click="showDetails()" class="margin-top"
         >View Details</v-btn
       >
-      <v-btn block @click="reserveMatch()" v-if="isFan" class="margin-top"
-        >Reserve</v-btn
-      >
+      <v-btn block @click="reserveMatch()" class="margin-top">Reserve</v-btn>
     </v-card-text>
     <v-dialog v-model="dialog" max-width="600">
       <v-card class="details-dialog">
@@ -45,6 +43,9 @@
           <p class="details-text"><b>Match Venue: </b>{{ match.venue }}</p>
           <p class="details-text"><b>Date: </b>{{ date }}</p>
           <p class="details-text"><b>Time: </b>{{ time }}</p>
+          <p class="details-text">
+            <b>Ticket Price: </b>{{ match.ticketPrice }}
+          </p>
           <p class="details-text">
             <b>Main Referee: </b>{{ match.mainReferee }}
           </p>
@@ -110,9 +111,6 @@ export default {
     };
   },
   computed: {
-    isFan() {
-      return localStorage.getItem("role") == "fan";
-    },
     date() {
       const dateTime = new Date(this.match.dateTime);
       const year = dateTime.getFullYear();
@@ -140,6 +138,9 @@ export default {
       this.dialog = false;
     },
     reserveMatch() {
+      if (!localStorage.getItem("accessToken")) {
+        this.$router.push("/login");
+      }
       this.reserve = true;
     },
     closeReserve() {
