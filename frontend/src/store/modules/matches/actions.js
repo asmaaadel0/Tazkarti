@@ -72,6 +72,39 @@ export default {
     }
   },
 
+  async loadAllStaduims(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const response = await fetch(baseurl + "/api/stadium/getStadiums", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const responseData = await response.json();
+
+    if (response.status == 200) {
+      const staduims = [];
+
+      for (let i = 0; i < responseData.length; i++) {
+        const staduim = {
+          _id: responseData[i]._id,
+          name: responseData[i].name,
+          city: responseData[i].city,
+          address: responseData[i].address,
+          rows: responseData[i].rows,
+          rowSeats: responseData[i].rowSeats,
+        };
+        staduims.push(staduim);
+      }
+      context.commit("setStaduims", staduims);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
+
   async addStaduim(context, payload) {
     const baseurl = payload.baseurl;
 

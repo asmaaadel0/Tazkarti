@@ -5,4 +5,10 @@ export default {
   done(state) {
     return state.done;
   },
+  users(state) {
+    return state.users;
+  },
+  unAuthorizedUsers(state) {
+    return state.unAuthorizedUsers;
+  },
 };

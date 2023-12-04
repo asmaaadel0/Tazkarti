@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/auth/LoginView.vue";
 import SignupView from "../views/auth/SignupView.vue";
 import MatchesView from "../views/home/MatchesView.vue";
+import StaduimsView from "../views/home/StaduimsView.vue";
 import EditProfileView from "../views/user/EditProfileView.vue";
 import UsersView from "../views/admin/UsersView.vue";
 import RequestsView from "../views/admin/RequestsView.vue";
@@ -25,6 +26,12 @@ const routes = [
     name: "matches",
     alias: "/",
     component: MatchesView,
+  },
+  {
+    path: "/staduims",
+    name: "staduims",
+    alias: "/",
+    component: StaduimsView,
   },
   {
     path: "/edit-profile",
