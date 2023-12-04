@@ -3,7 +3,7 @@
     <v-card class="details-dialog">
       <v-card-title class="details-title">Add Staduim </v-card-title>
       <v-card-text class="center">
-        <v-form ref="form" @submit.prevent="addMatch()">
+        <v-form ref="form" @submit.prevent="addStaduim()">
           <v-row>
             <v-col cols="18" sm="6">
               <v-text-field
@@ -11,7 +11,27 @@
                 label="Staduim Name"
                 required
                 class="input-label"
-                v-model="staduimName"
+                v-model="name"
+                :rules="[validateInput]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="18" sm="6">
+              <v-text-field
+                prepend-inner-icon="mdi-stadium"
+                label="City"
+                required
+                class="input-label"
+                v-model="city"
+                :rules="[validateInput]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="18" sm="6">
+              <v-text-field
+                prepend-inner-icon="mdi-stadium"
+                label="Address"
+                required
+                class="input-label"
+                v-model="address"
                 :rules="[validateInput]"
               ></v-text-field>
             </v-col>
@@ -21,7 +41,7 @@
                 label="Row Number"
                 prepend-inner-icon="mdi-view-sequential"
                 class="input-label"
-                v-model="ticketPrice"
+                v-model="rows"
               ></v-text-field>
             </v-col>
             <v-col cols="18" sm="6">
@@ -30,11 +50,11 @@
                 label="Number Of Seats Ber Row"
                 prepend-inner-icon="mdi-seat"
                 class="input-label"
-                v-model="ticketPrice"
+                v-model="rowSeats"
               ></v-text-field>
             </v-col>
-            <p class="error" v-if="errorUserName != ''">
-              {{ errorUserName }}
+            <p class="error" v-if="error != ''">
+              {{ error }}
             </p>
             <v-col cols="12"> </v-col>
 
@@ -49,7 +69,7 @@
             </div>
           </v-row>
           <v-card-actions>
-            <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
+            <v-btn @click="closeAddStaduim" class="btn">Close</v-btn>
             <v-spacer></v-spacer>
             <v-btn type="submit" class="btn" block :loading="loading"
               >Add Staduim</v-btn
@@ -60,6 +80,7 @@
     </v-card>
   </v-dialog>
 </template>
+
 <script>
 export default {
   props: {
@@ -78,23 +99,62 @@ export default {
       dialog: this.addStaduimDialog,
       counts: 10,
 
-      homeTeam: "",
-      awayTeam: "",
-      venue: "",
-      dateTime: "",
-      mainReferee: "",
-      firstLinesman: "",
-      secondLinesman: "",
-      ticketPrice: 0,
+      error: "",
+      loading: false,
+
+      name: "",
+      city: "",
+      address: "",
+      rows: "",
+      rowSeats: "",
     };
   },
   methods: {
     showAddStaduim() {
       this.dialog = true;
     },
-    closeAddMatch() {
+    closeAddStaduim() {
       this.$emit("close-staduim");
       this.dialog = false;
+    },
+    validateInput(value) {
+      if (!value) {
+        return "This Field is Required";
+      }
+      return true;
+    },
+    async addStaduim() {
+      if (
+        !this.name ||
+        !this.city ||
+        !this.address ||
+        !this.rows ||
+        !this.rowSeats
+      ) {
+        return;
+      }
+      this.loading = true;
+      this.error = "";
+      const actionPayload = {
+        name: this.name,
+        city: this.city,
+        address: this.address,
+        rows: this.rows,
+        rowSeats: this.rowSeats,
+
+        baseurl: this.$baseurl,
+      };
+
+      try {
+        await this.$store.dispatch("addStaduim", actionPayload);
+      } catch (err) {
+        this.error = err.message;
+        this.loading = false;
+        return;
+      }
+
+      this.loading = false;
+      this.closeAddStaduim();
     },
   },
 };
@@ -115,5 +175,9 @@ export default {
 .btn,
 .details-title {
   color: var(--color-primary);
+}
+.error {
+  color: red;
+  font-size: 1rem;
 }
 </style>

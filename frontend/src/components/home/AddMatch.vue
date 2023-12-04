@@ -192,4 +192,8 @@ export default {
 .details-title {
   color: var(--color-primary);
 }
+.error {
+  color: red;
+  font-size: 1rem;
+}
 </style>

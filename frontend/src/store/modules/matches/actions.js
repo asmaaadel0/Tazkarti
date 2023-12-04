@@ -60,15 +60,45 @@ export default {
 
     const response = await fetch(baseurl + "/api/match/createMatch", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       body: JSON.stringify(match),
     });
 
     const responseData = await response.json();
 
-    if (response.status != 400) {
-      const error = new Error(responseData.error);
+    if (!response.ok) {
+      const error = new Error(responseData.err || responseData.msg);
+      throw error;
+    }
+  },
+
+  async addStaduim(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const staduim = {
+      name: payload.name,
+      city: payload.city,
+      address: payload.address,
+      rows: payload.rows,
+      rowSeats: payload.rowSeats,
+    };
+
+    const response = await fetch(baseurl + "/api/stadium/createStadium", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(staduim),
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(responseData.err || responseData.msg);
       throw error;
     }
   },
