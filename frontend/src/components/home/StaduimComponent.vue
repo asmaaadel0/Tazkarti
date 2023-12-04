@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
     <v-row class="staduims">
-      <v-col v-for="staduim in staduims" :key="staduim.id">
-        <staduim-details :staduim="staduim"></staduim-details>
+      <v-col v-for="(staduim, index) in staduims" :key="staduim.id">
+        <staduim-details :staduim="staduim" :index="index"></staduim-details>
       </v-col>
     </v-row>
   </v-container>
