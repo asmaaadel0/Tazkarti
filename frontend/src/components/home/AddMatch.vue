@@ -89,10 +89,14 @@
           </v-alert>
           <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
           <v-card-actions>
-            <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn type="submit" class="btn" block :loading="loading"
-              >Add Match</v-btn
+            <v-col>
+              <v-btn @click="closeAddMatch" class="btn">Close</v-btn></v-col
+            >
+            <v-col>
+              <v-spacer></v-spacer>
+              <v-btn type="submit" class="btn" block :loading="loading"
+                >Add Match</v-btn
+              ></v-col
             >
           </v-card-actions>
         </v-form>

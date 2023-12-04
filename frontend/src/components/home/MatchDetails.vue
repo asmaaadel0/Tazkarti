@@ -1,26 +1,39 @@
 <template>
   <v-card class="match-card">
-    <v-card-text class="text-center match-day">
+    <!-- <v-card-text class="text-center match-day">
       <h3>{{ date }}</h3>
+    </v-card-text> -->
+    <v-card-text class="text-center match-day">
+      <!-- <v-img
+        src="@/assets/ball.jpg"
+        alt="Home Image"
+        class="home-image"
+      ></v-img> -->
+      <div class="text-block">
+        <h3>{{ date }}</h3>
+      </div>
     </v-card-text>
-    <v-card-text class="text-center team-info">
-      <v-img
+    <v-card-text class="text-center team-info margin">
+      <!-- <v-img
         src="../../assets/teamA.png"
         alt="Team 1"
         class="team-image"
-      ></v-img>
-      <p class="team-name">{{ match.homeTeam }}</p>
+      ></v-img> -->
+      <p class="team-name">{{ match.homeTeam }} vs {{ match.awayTeam }}</p>
     </v-card-text>
     <v-card-text class="text-center team-info">
-      <v-img
+      <!-- <v-img
         src="../../assets/teamA.png"
         alt="Team 2"
         class="team-image"
       ></v-img>
-      <p class="team-name">{{ match.awayTeam }}</p>
+      <p class="team-name">{{ match.awayTeam }}</p> -->
 
       <v-btn block @click="showDetails()" class="margin-top"
         >View Details</v-btn
+      >
+      <v-btn block @click="reserveMatch()" v-if="isFan" class="margin-top"
+        >Reserve</v-btn
       >
     </v-card-text>
     <v-dialog v-model="dialog" max-width="600">
@@ -45,6 +58,35 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="reserve" max-width="600">
+      <v-card class="details-dialog">
+        <v-card-title class="details-title">Choose Your Seat</v-card-title>
+        <v-col>
+          <v-icon
+            v-for="k in 10"
+            :key="k"
+            class="seat-icon"
+            size="large"
+            color="success"
+            >mdi-seat</v-icon
+          >
+        </v-col>
+        <v-col cols="12">
+          <v-alert v-if="confirmed" shaped type="success">
+            Seat is Reserved successfully
+          </v-alert>
+          <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+        </v-col>
+        <v-card-actions>
+          <v-col> <v-btn @click="closeReserve" class="btn">Close</v-btn></v-col>
+          <v-col>
+            <v-btn type="submit" class="btn" block :loading="loading"
+              >Reserve</v-btn
+            ></v-col
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -59,9 +101,16 @@ export default {
   data() {
     return {
       dialog: false,
+      reserve: false,
+
+      error: "",
+      confirmed: false,
     };
   },
   computed: {
+    isFan() {
+      return localStorage.getItem("role") == "fan";
+    },
     date() {
       const dateTime = new Date(this.match.dateTime);
       const year = dateTime.getFullYear();
@@ -77,12 +126,22 @@ export default {
       return hours + ":" + minutes + ":" + seconds;
     },
   },
+  created() {
+    this.error = "";
+    this.confirmed = false;
+  },
   methods: {
     showDetails() {
       this.dialog = true;
     },
     closeDetails() {
       this.dialog = false;
+    },
+    reserveMatch() {
+      this.reserve = true;
+    },
+    closeReserve() {
+      this.reserve = false;
     },
   },
 };
@@ -132,7 +191,7 @@ export default {
 }
 .team-name {
   color: var(--color-white);
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 .details-title {
@@ -140,5 +199,9 @@ export default {
 }
 b {
   color: var(--color-primary-light);
+}
+.margin {
+  margin-top: 2rem;
+  font-size: 4rem !important;
 }
 </style>
