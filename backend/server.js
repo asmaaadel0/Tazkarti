@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRouter.js');
 const matchRoutes = require('./routes/matchRouter.js');
 const stadiumRoutes = require('./routes/stadiumRouter.js');
 const userRouter = require('./routes/userRouter.js');
+const ticketRouter = require('./routes/ticketRouter.js');
 
 dotenv.config({ path: './config.env' });
 
@@ -14,6 +15,7 @@ app.use('/api/user', authRoutes);
 app.use('/api/user', userRouter);
 app.use('/api/match', matchRoutes);
 app.use('/api/stadium', stadiumRoutes);
+app.use('/api/ticket', ticketRouter);
 
 // Enable CORS for all routes
 app.use(cors());
