@@ -19,7 +19,9 @@
         alt="Team 1"
         class="team-image"
       ></v-img> -->
-      <p class="team-name">{{ match.homeTeam }} vs {{ match.awayTeam }}</p>
+      <p class="team-name">
+        {{ match.homeTeam }} <b>vs</b> {{ match.awayTeam }}
+      </p>
     </v-card-text>
     <v-card-text class="text-center team-info">
       <!-- <v-img
