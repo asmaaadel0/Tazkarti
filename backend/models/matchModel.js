@@ -32,6 +32,10 @@ const matchSchema = new mongoose.Schema({
   ticketPrice: {
     type: Number,
     required: true
+  },
+  seats: {
+    type: [[Object]],
+    required: true
   }
 });
 

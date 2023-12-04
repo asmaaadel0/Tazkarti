@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Match = require('../models/matchModel');
+const Stadium = require('../models/stadiumModel');
 
 const createMatch = async (req, res) => {
   const { homeTeam } = req.body;
@@ -31,6 +32,26 @@ const createMatch = async (req, res) => {
       .send({ msg: 'Ticket price should be larger than 0' });
   }
 
+  const stadium = await Stadium.findOne({ name: venue });
+  if (!stadium) {
+    return res.status(400).send({ err: 'The stadium does not exist' });
+  }
+
+  const seats = [];
+  for (let i = 0; i < stadium.rows; i++) {
+    const rowNumber = String.fromCharCode('A'.charCodeAt(0) + i);
+    const row = [];
+
+    for (let j = 1; j <= stadium.rowSeats; j++) {
+      const seatNumber = rowNumber + j;
+      row.push({
+        number: seatNumber,
+        isReserved: false
+      });
+    }
+    seats.push(row);
+  }
+
   const match = new Match({
     homeTeam,
     awayTeam,
@@ -39,13 +60,13 @@ const createMatch = async (req, res) => {
     mainReferee,
     firstLinesman,
     secondLinesman,
-    ticketPrice
+    ticketPrice,
+    seats
   });
   match
     .save()
     .then(result => {
       res.status(200).send({ msg: 'Match added successfully!' });
-      console.log(match);
     })
     .catch(err => {
       res.status(500).send({ err: err.message });
@@ -74,29 +95,52 @@ const viewMatch = async (req, res) => {
   res.status(200).send(match);
 };
 
+// const viewMatches = async (req, res) => {
+//   const perPage = 6;
+
+//   if (!req.query.page || req.query.page < 1) {
+//     return res
+//       .status(406)
+//       .send({ err: 'Invalid page number, it must be greater than 0' });
+//   }
+
+//   const { page } = req.query;
+
+//   let matches;
+//   let totalMatchesNumber;
+//   const currentDate = new Date();
+
+//   try {
+//     matches = await Match.find({ dateTime: { $gt: currentDate } })
+//       .sort({ dateTime: 1 })
+//       .skip((page - 1) * perPage)
+//       .limit(perPage);
+
+//     totalMatchesNumber = await Match.countDocuments({
+//       dateTime: { $gt: currentDate }
+//     });
+//   } catch (err) {
+//     return res.status(500).send({ err: err.message });
+//   }
+
+//   matches = matches.map(match => {
+//     return { ...match.toObject() };
+//   });
+
+//   const hasNext = (page - 1) * perPage + matches.length < totalMatchesNumber;
+//   res.status(200).send({
+//     has_next: hasNext,
+//     matches: matches
+//   });
+// };
+
 const viewMatches = async (req, res) => {
-  const perPage = 6;
-
-  if (!req.query.page || req.query.page < 1) {
-    return res
-      .status(406)
-      .send({ err: 'Invalid page number, it must be greater than 0' });
-  }
-
-  const { page } = req.query;
-
   let matches;
-  let totalMatchesNumber;
   const currentDate = new Date();
 
   try {
-    matches = await Match.find({ dateTime: { $gt: currentDate } })
-      .sort({ dateTime: 1 })
-      .skip((page - 1) * perPage)
-      .limit(perPage);
-
-    totalMatchesNumber = await Match.countDocuments({
-      dateTime: { $gt: currentDate }
+    matches = await Match.find({ dateTime: { $gt: currentDate } }).sort({
+      dateTime: 1
     });
   } catch (err) {
     return res.status(500).send({ err: err.message });
@@ -106,9 +150,7 @@ const viewMatches = async (req, res) => {
     return { ...match.toObject() };
   });
 
-  const hasNext = (page - 1) * perPage + matches.length < totalMatchesNumber;
   res.status(200).send({
-    has_next: hasNext,
     matches: matches
   });
 };
