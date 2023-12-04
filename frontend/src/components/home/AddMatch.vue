@@ -37,16 +37,6 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
-                prepend-inner-icon="mdi-account-outline"
-                label="Last Name"
-                required
-                class="input-label"
-                v-model="lastName"
-                :rules="[validateInput]"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
                 prepend-inner-icon="mdi-calendar-clock"
                 type="datetime-local"
                 label="Date"
@@ -70,6 +60,7 @@
                 prepend-inner-icon="mdi-account-outline"
                 class="input-label"
                 v-model="firstLinesman"
+                :rules="[validateInput]"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
@@ -78,6 +69,7 @@
                 prepend-inner-icon="mdi-account-outline"
                 class="input-label"
                 v-model="secondLinesman"
+                :rules="[validateInput]"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
@@ -87,10 +79,11 @@
                 prepend-inner-icon="mdi-currency-usd"
                 class="input-label"
                 v-model="ticketPrice"
+                :rules="[validateInput]"
               ></v-text-field>
             </v-col>
-            <p class="error" v-if="errorUserName != ''">
-              {{ errorUserName }}
+            <p class="error" v-if="error != ''">
+              {{ error }}
             </p>
             <v-col cols="12"> </v-col>
           </v-row>
@@ -130,7 +123,11 @@ export default {
       mainReferee: "",
       firstLinesman: "",
       secondLinesman: "",
-      ticketPrice: 0,
+      ticketPrice: null,
+
+      error: "",
+
+      loading: false,
     };
   },
   methods: {
@@ -140,6 +137,51 @@ export default {
     closeAddMatch() {
       this.$emit("close-match");
       this.dialog = false;
+    },
+    validateInput(value) {
+      if (!value) {
+        return "This Field is Required";
+      }
+      return true;
+    },
+    async addMatch() {
+      if (
+        !this.homeTeam ||
+        !this.awayTeam ||
+        !this.venue ||
+        !this.dateTime ||
+        !this.mainReferee ||
+        !this.firstLinesman ||
+        !this.secondLinesman ||
+        !this.ticketPrice
+      ) {
+        return;
+      }
+      this.loading = true;
+      this.error = "";
+      const actionPayload = {
+        homeTeam: this.homeTeam,
+        awayTeam: this.awayTeam,
+        venue: this.venue,
+        dateTime: this.dateTime,
+        mainReferee: this.mainReferee,
+        firstLinesman: this.firstLinesman,
+        secondLinesman: this.secondLinesman,
+        ticketPrice: this.ticketPrice,
+
+        baseurl: this.$baseurl,
+      };
+
+      try {
+        await this.$store.dispatch("addMatch", actionPayload);
+      } catch (err) {
+        this.error = err.message;
+        this.loading = false;
+        return;
+      }
+
+      this.loading = false;
+      this.closeAddMatch();
     },
   },
 };
