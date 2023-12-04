@@ -53,7 +53,7 @@
                         type="date"
                         label="Birth Date"
                         class="input-label"
-                        v-model="user.birthDate"
+                        v-model="date"
                         :rules="[validateInput]"
                       ></v-text-field>
                     </v-col>
@@ -137,6 +137,7 @@ export default {
       },
       genderOptions: ["male", "female"],
       errorUserName: "",
+      date: "",
 
       loading: false,
     };
@@ -145,6 +146,7 @@ export default {
     if (localStorage.getItem("accessToken")) {
       this.loading = true;
       await this.getUser();
+      this.calcDate();
     }
     this.loading = false;
   },
@@ -154,6 +156,22 @@ export default {
     }
   },
   methods: {
+    calcDate() {
+      const originalDateString = this.user.birthDate;
+
+      const originalDate = new Date(originalDateString);
+
+      const formattedDate = `${originalDate.getFullYear()}-${(
+        originalDate.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}-${originalDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")}`;
+
+      this.date = formattedDate;
+    },
     validateInput(value) {
       if (!value) {
         return "This field is required";
@@ -177,7 +195,6 @@ export default {
       this.user = this.$store.getters["user"];
       this.loading = false;
     },
-
     async saveProfile() {
       if (
         !this.user.userName ||
@@ -229,5 +246,9 @@ export default {
 }
 .contact {
   color: black;
+}
+.error {
+  color: red;
+  font-size: 1rem;
 }
 </style>

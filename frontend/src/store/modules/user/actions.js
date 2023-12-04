@@ -11,7 +11,6 @@ export default {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
 
     if (response.status == 200) {
       const user = {
@@ -30,7 +29,6 @@ export default {
         createdIn: responseData.user.createdIn,
       };
       context.commit("setUser", user);
-      console.log(user);
     }
 
     if (response.status == 400) {
@@ -53,10 +51,13 @@ export default {
     const baseurl = payload.baseurl;
 
     const response = await fetch(
-      baseurl + "/api/user/editUser/:" + payload.id,
+      baseurl + "/api/user/editUser/" + localStorage.getItem("id"),
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
         body: JSON.stringify(userInfo),
       }
     );
