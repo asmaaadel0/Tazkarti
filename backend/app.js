@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
-
+const cors = require('cors');
 // const userRouter = require('./routes/userRoutes');
 
 const app = express();
+// Enable CORS for all routes
+app.use(cors());
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
