@@ -21,10 +21,8 @@ export default {
     };
   },
   async created() {
-    if (localStorage.getItem("accessToken")) {
-      this.loading = true;
-      await this.loadStaduims();
-    }
+    this.loading = true;
+    await this.loadStaduims();
     this.loading = false;
   },
   methods: {
