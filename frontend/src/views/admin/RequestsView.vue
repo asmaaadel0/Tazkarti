@@ -52,7 +52,7 @@
         </v-card-text>
         <v-card-text class="text-center team-info">
           <v-row>
-            <v-col cols="2"
+            <v-col cols="5"
               ><v-btn
                 class="mx-1 mx-md-3"
                 fab
@@ -61,10 +61,11 @@
                 color="green"
                 @click="approveUser(user.id)"
               >
+                Approve User
                 <v-icon dark> mdi-account-check-outline </v-icon>
               </v-btn>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="5">
               <v-btn
                 class="mx-1 mx-md-3"
                 fab
@@ -73,6 +74,7 @@
                 color="red"
                 @click="disapproveUser(user.id)"
               >
+                Disapprove User
                 <v-icon dark> mdi-account-remove-outline </v-icon>
               </v-btn></v-col
             ></v-row
@@ -136,8 +138,21 @@ export default {
       this.users = this.users.concat(this.$store.getters["unAuthorizedUsers"]);
       this.loading = false;
     },
-    approveUser(id) {
-      console.log(id);
+    async approveUser(id) {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("approveUser", {
+          baseurl: this.$baseurl,
+          id: id,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.loading = false;
     },
     disapproveUser(id) {
       console.log(id);

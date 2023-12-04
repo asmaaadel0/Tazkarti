@@ -153,4 +153,28 @@ export default {
       throw error;
     }
   },
+  async approveUser(context, payload) {
+    const baseurl = payload.baseurl;
+    const id = payload.id;
+
+    const response = await fetch(baseurl + "/api/user/approveUser/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+
+    const responseData = await response.json();
+    if (response.status == 200) {
+      context.commit("setDone", true);
+      console.log("done");
+    }
+
+    if (response.status == 400) {
+      context.commit("setDone", false);
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };
