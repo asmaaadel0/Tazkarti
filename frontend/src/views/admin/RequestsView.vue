@@ -82,7 +82,7 @@
         >
         <v-col cols="12">
           <v-alert v-if="confirmed" shaped type="success">
-            Approved successfully
+            {{ success }}
           </v-alert>
           <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
         </v-col>
@@ -103,6 +103,7 @@ export default {
       user: {},
       showDetails: false,
       birthDate: "",
+      success: "",
     };
   },
   async beforeMount() {
@@ -171,6 +172,7 @@ export default {
       }
       this.loadUsers();
       this.loading = false;
+      this.success = "User is Approved Successfully";
       this.confirmed = true;
     },
     async disApproveUser(id) {
@@ -192,6 +194,7 @@ export default {
         return;
       }
       this.confirmed = true;
+      this.success = "User is Disapproved Successfully";
       this.loadUsers();
       this.loading = false;
       this.showDetails = false;

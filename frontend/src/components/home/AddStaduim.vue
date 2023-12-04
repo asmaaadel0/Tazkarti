@@ -55,13 +55,20 @@
             </v-col>
             <v-col cols="12"> </v-col>
             <v-col></v-col>
+            <!-- <v-col v-for="i in 3" :key="i">
+              <v-row v-for="k in 5" :key="k">
+                <v-icon class="seat-icon" size="large" color="success"
+                  >mdi-seat</v-icon
+                ></v-row
+              >
+            </v-col> -->
             <v-col>
               <v-icon
-                v-for="k in counts"
-                :key="k"
                 class="seat-icon"
                 size="large"
                 color="success"
+                v-for="k in counts"
+                :key="k"
                 >mdi-seat</v-icon
               >
             </v-col>
@@ -106,7 +113,7 @@ export default {
   data() {
     return {
       dialog: this.addStaduimDialog,
-      // counts: 10,
+      // counts: 2,
 
       error: "",
       loading: false,
