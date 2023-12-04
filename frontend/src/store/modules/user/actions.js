@@ -2,8 +2,8 @@ export default {
   async getUser(context, payload) {
     const baseurl = payload.baseurl;
 
-    const response = await fetch(baseurl + "/api/user/getUser/:" + payload.id, {
-      method: "POST",
+    const response = await fetch(baseurl + "/api/user/getUser/" + payload.id, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -11,6 +11,7 @@ export default {
     });
 
     const responseData = await response.json();
+    console.log(responseData);
 
     if (response.status == 200) {
       const user = {
@@ -29,6 +30,7 @@ export default {
         createdIn: responseData.user.createdIn,
       };
       context.commit("setUser", user);
+      console.log(user);
     }
 
     if (response.status == 400) {

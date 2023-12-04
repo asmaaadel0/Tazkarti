@@ -129,12 +129,14 @@ export default {
         firstName: "",
         lastName: "",
         birthDate: "",
-        gender: "",
+        gender: null,
         city: "",
         emailAddress: "asdfg",
         role: "",
         createdIn: "",
       },
+      genderOptions: ["male", "female"],
+      errorUserName: "",
 
       loading: false,
     };
@@ -142,11 +144,22 @@ export default {
   async created() {
     if (localStorage.getItem("accessToken")) {
       this.loading = true;
-      // await this.getUser();
+      await this.getUser();
     }
     this.loading = false;
   },
+  beforeMount() {
+    if (!localStorage.getItem("accessToken")) {
+      this.$router.push("/");
+    }
+  },
   methods: {
+    validateInput(value) {
+      if (!value) {
+        return "This field is required";
+      }
+      return true;
+    },
     async getUser() {
       this.loading = true;
 

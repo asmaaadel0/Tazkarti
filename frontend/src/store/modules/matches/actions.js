@@ -43,4 +43,33 @@ export default {
       }
     }
   },
+
+  async addMatch(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const match = {
+      homeTeam: payload.homeTeam,
+      awayTeam: payload.awayTeam,
+      venue: payload.venue,
+      dateTime: payload.dateTime,
+      mainReferee: payload.mainReferee,
+      firstLinesman: payload.firstLinesman,
+      secondLinesman: payload.secondLinesman,
+      ticketPrice: payload.ticketPrice,
+    };
+
+    const response = await fetch(baseurl + "/api/match/createMatch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      body: JSON.stringify(match),
+    });
+
+    const responseData = await response.json();
+
+    if (response.status != 400) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };
