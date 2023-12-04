@@ -105,7 +105,7 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      this.users = this.users.concat(this.$store.getters["users"]);
+      this.users = this.$store.getters["users"];
       this.loading = false;
     },
   },

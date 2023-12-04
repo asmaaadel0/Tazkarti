@@ -72,7 +72,7 @@
                 dark
                 small
                 color="red"
-                @click="disapproveUser(user.id)"
+                @click="disApproveUser(user.id)"
               >
                 Disapprove User
                 <v-icon dark> mdi-account-remove-outline </v-icon>
@@ -135,7 +135,7 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      this.users = this.users.concat(this.$store.getters["unAuthorizedUsers"]);
+      this.users = this.$store.getters["unAuthorizedUsers"];
       this.loading = false;
     },
     async approveUser(id) {
@@ -152,10 +152,26 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
+      this.loadUsers();
       this.loading = false;
     },
-    disapproveUser(id) {
-      console.log(id);
+    async disApproveUser(id) {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("disApproveUser", {
+          baseurl: this.$baseurl,
+          id: id,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.loadUsers();
+      this.loading = false;
+      this.showDetails = false;
     },
   },
 };
