@@ -93,9 +93,15 @@
                         v-model="user.password"
                       ></v-text-field>
                     </v-col>
-                    <p class="error" v-if="errorUserName != ''">
-                      {{ errorUserName }}
-                    </p>
+
+                    <v-col cols="12">
+                      <v-alert v-if="confirmed" shaped type="success">
+                        Stadium is added successfully
+                      </v-alert>
+                      <v-alert v-if="error" shaped type="error"
+                        >{{ error }}
+                      </v-alert>
+                    </v-col>
                     <v-col cols="12">
                       <v-btn
                         type="submit"
@@ -136,8 +142,10 @@ export default {
         createdIn: "",
       },
       genderOptions: ["male", "female"],
-      errorUserName: "",
       date: "",
+
+      error: "",
+      confirmed: false,
 
       loading: false,
     };
@@ -154,6 +162,8 @@ export default {
     if (!localStorage.getItem("accessToken")) {
       this.$router.push("/");
     }
+    this.confirmed = false;
+    this.error = "";
   },
   methods: {
     calcDate() {
@@ -173,6 +183,8 @@ export default {
       this.date = formattedDate;
     },
     validateInput(value) {
+      this.confirmed = false;
+      this.error = "";
       if (!value) {
         return "This field is required";
       }
@@ -180,6 +192,8 @@ export default {
     },
     async getUser() {
       this.loading = true;
+      this.confirmed = false;
+      this.error = "";
 
       try {
         await this.$store.dispatch("getUser", {
@@ -194,6 +208,7 @@ export default {
       }
       this.user = this.$store.getters["user"];
       this.loading = false;
+      this.confirmed = true;
     },
     async saveProfile() {
       if (
@@ -210,7 +225,9 @@ export default {
         return;
       }
       this.loading = true;
-      this.errorUserName = "";
+      this.confirmed = false;
+      this.error = "";
+
       const actionPayload = {
         userName: this.user.userName,
         password: this.user.password,
@@ -227,10 +244,13 @@ export default {
       try {
         await this.$store.dispatch("editUser", actionPayload);
       } catch (err) {
-        this.errorUserName = err.message;
+        this.error = err.message;
+        this.loading = false;
+        return;
       }
 
       this.loading = false;
+      this.confirmed = true;
     },
   },
 };
