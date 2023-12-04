@@ -51,6 +51,9 @@
           <p class="details-title"><b>Role: </b>{{ user.role }}</p>
         </v-card-text>
       </v-card>
+      <v-col cols="12">
+        <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+      </v-col>
     </div>
   </div>
 </template>
@@ -64,6 +67,8 @@ export default {
       user: {},
       showDetails: false,
       birthDate: "",
+
+      error: "",
     };
   },
   async beforeMount() {
@@ -75,6 +80,7 @@ export default {
       await this.loadUsers();
     }
     this.loading = false;
+    this.error = "";
   },
   methods: {
     date() {
@@ -94,6 +100,7 @@ export default {
     },
     async loadUsers() {
       this.loading = true;
+      this.error = "";
 
       try {
         await this.$store.dispatch("loadAllUsers", {
@@ -104,9 +111,12 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
       this.users = this.$store.getters["users"];
       this.loading = false;
+      this.error = "";
     },
   },
 };
