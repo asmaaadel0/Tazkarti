@@ -8,4 +8,7 @@ export default {
   users(state) {
     return state.users;
   },
+  unAuthorizedUsers(state) {
+    return state.unAuthorizedUsers;
+  },
 };

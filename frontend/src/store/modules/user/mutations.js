@@ -8,4 +8,7 @@ export default {
   setUsers(state, payload) {
     state.users = payload;
   },
+  setUnAuthorizedUsers(state, payload) {
+    state.unAuthorizedUsers = payload;
+  },
 };

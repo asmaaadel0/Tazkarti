@@ -8,6 +8,7 @@ export default {
       user: {},
       done: false,
       users: [],
+      unAuthorizedUsers: [],
     };
   },
   mutations,
