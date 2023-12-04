@@ -5,4 +5,7 @@ export default {
   done(state) {
     return state.done;
   },
+  users(state) {
+    return state.users;
+  },
 };

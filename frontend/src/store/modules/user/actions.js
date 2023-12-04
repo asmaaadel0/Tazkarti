@@ -73,4 +73,44 @@ export default {
       throw error;
     }
   },
+  async loadAllUsers(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const response = await fetch(baseurl + "/api/user/allUsers", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
+
+    const responseData = await response.json();
+
+    if (response.status == 200) {
+      const users = [];
+
+      for (let i = 0; i < responseData.users.length; i++) {
+        const user = {
+          id: responseData.users[i]._id,
+          userName: responseData.users[i].userName,
+          isPending: responseData.users[i].isPending,
+          address: responseData.users[i].address,
+          firstName: responseData.users[i].firstName,
+          lastName: responseData.users[i].lastName,
+          birthDate: responseData.users[i].birthDate,
+          gender: responseData.users[i].gender,
+          city: responseData.users[i].city,
+          emailAddress: responseData.users[i].emailAddress,
+          role: responseData.users[i].role,
+        };
+        users.push(user);
+      }
+      context.commit("setUsers", users);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };

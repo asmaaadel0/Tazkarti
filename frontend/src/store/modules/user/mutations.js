@@ -5,4 +5,7 @@ export default {
   setDone(state, payload) {
     state.done = payload;
   },
+  setUsers(state, payload) {
+    state.users = payload;
+  },
 };

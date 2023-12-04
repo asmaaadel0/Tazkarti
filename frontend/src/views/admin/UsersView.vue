@@ -1,11 +1,15 @@
 <template>
   <div class="row">
-    <div class="child1">test</div>
+    <div class="child1"><all-users></all-users></div>
     <div class="child2">test</div>
   </div>
 </template>
 <script>
+import AllUsers from "../../components/users/AllUsers";
 export default {
+  components: {
+    AllUsers,
+  },
   beforeMount() {
     if (localStorage.getItem("role") != "admin") {
       this.$router.push("/");
@@ -24,6 +28,8 @@ export default {
   flex-basis: 30%;
   width: 30%;
   text-align: center;
+  align-items: center;
+  margin: auto;
   background-color: var(--color-primary);
 }
 .child2 {

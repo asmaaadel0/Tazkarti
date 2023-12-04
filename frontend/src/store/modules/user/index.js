@@ -7,6 +7,7 @@ export default {
     return {
       user: {},
       done: false,
+      users: [],
     };
   },
   mutations,
