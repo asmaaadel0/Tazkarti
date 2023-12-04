@@ -167,6 +167,14 @@ userSchema.statics.approveUser = async function(_id) {
   return user;
 };
 
+userSchema.statics.getAllUsers = async function() {
+  const users = await this.find();
+  if (!users) {
+    throw Error('no users found !');
+  }
+
+  return users;
+};
 const userModel = mongoose.model('User', userSchema);
 
 module.exports = userModel;

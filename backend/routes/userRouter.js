@@ -18,4 +18,7 @@ userRouter.get('/unAuthorizedUers', userController.getunAunothorizedUsers);
 
 userRouter.patch('/approveUser/:id', userController.approveUser);
 
+//get the usesr data
+userRouter.get('/allUsers', userController.getAllUsers);
+
 module.exports = userRouter;

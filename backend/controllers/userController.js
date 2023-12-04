@@ -59,10 +59,22 @@ const approveUser = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await userModel.getAllUsers();
+    return res.status(200).json({
+      users
+    });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 module.exports = {
   getUser,
   deleteUser,
   editUser,
   getunAunothorizedUsers,
-  approveUser
+  approveUser,
+  getAllUsers
 };
