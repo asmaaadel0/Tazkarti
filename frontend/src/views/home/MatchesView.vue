@@ -20,6 +20,11 @@ export default {
   components: {
     MatchComponent,
   },
+  beforeMount() {
+    if (localStorage.getItem("role") == "admin") {
+      this.$router.push("/users");
+    }
+  },
 };
 </script>
 
