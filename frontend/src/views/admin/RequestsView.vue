@@ -166,6 +166,8 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
       this.loadUsers();
       this.loading = false;
@@ -186,6 +188,8 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
       this.confirmed = true;
       this.loadUsers();
