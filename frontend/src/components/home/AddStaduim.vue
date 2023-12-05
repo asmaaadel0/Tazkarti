@@ -38,6 +38,8 @@
             <v-col cols="18" sm="6">
               <v-text-field
                 type="number"
+                min="1"
+                max="10"
                 label="Row Number"
                 prepend-inner-icon="mdi-view-sequential"
                 class="input-label"
@@ -46,6 +48,8 @@
             </v-col>
             <v-col cols="18" sm="6">
               <v-text-field
+                min="5"
+                max="10"
                 type="number"
                 label="Number Of Seats Ber Row"
                 prepend-inner-icon="mdi-seat"
@@ -111,8 +115,8 @@ export default {
       name: "",
       city: "",
       address: "",
-      rows: 0,
-      rowSeats: 0,
+      rows: 1,
+      rowSeats: 5,
     };
   },
   methods: {
