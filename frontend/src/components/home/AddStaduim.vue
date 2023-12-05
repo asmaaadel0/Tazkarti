@@ -41,7 +41,7 @@
                 label="Row Number"
                 prepend-inner-icon="mdi-view-sequential"
                 class="input-label"
-                v-model="rows"
+                v-model.number="rows"
               ></v-text-field>
             </v-col>
             <v-col cols="18" sm="6">
@@ -50,28 +50,18 @@
                 label="Number Of Seats Ber Row"
                 prepend-inner-icon="mdi-seat"
                 class="input-label"
-                v-model="rowSeats"
+                v-model.number="rowSeats"
               ></v-text-field>
             </v-col>
-            <v-col cols="12"> </v-col>
-            <v-col></v-col>
-            <!-- <v-col v-for="i in 3" :key="i">
-              <v-row v-for="k in 5" :key="k">
-                <v-icon class="seat-icon" size="large" color="success"
-                  >mdi-seat</v-icon
-                ></v-row
-              >
-            </v-col> -->
-            <v-col>
-              <v-icon
-                class="seat-icon"
-                size="large"
-                color="success"
-                v-for="k in counts"
-                :key="k"
-                >mdi-seat</v-icon
-              >
-            </v-col>
+            <v-container>
+              <v-row v-for="row in rows" :key="row">
+                <v-col v-for="col in rowSeats" :key="col">
+                  <v-icon class="seat-icon" size="large" color="success"
+                    >mdi-seat</v-icon
+                  >
+                </v-col>
+              </v-row>
+            </v-container>
             <v-col></v-col>
           </v-row>
           <v-alert v-if="confirmed" shaped type="success">
@@ -113,7 +103,6 @@ export default {
   data() {
     return {
       dialog: this.addStaduimDialog,
-      // counts: 2,
 
       error: "",
       loading: false,
@@ -122,14 +111,9 @@ export default {
       name: "",
       city: "",
       address: "",
-      rows: "",
-      rowSeats: "",
+      rows: 0,
+      rowSeats: 0,
     };
-  },
-  computed: {
-    counts() {
-      return this.rows * this.rowSeats;
-    },
   },
   methods: {
     showAddStaduim() {
