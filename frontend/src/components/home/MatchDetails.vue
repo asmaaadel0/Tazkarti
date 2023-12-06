@@ -273,6 +273,7 @@ export default {
 
       this.loading = false;
       this.confirmed = true;
+      this.$emit("refresh");
     },
   },
 };

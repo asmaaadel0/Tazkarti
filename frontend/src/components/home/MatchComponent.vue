@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="matches">
       <v-col v-for="match in matches" :key="match.id">
-        <match-details :match="match"></match-details>
+        <match-details :match="match" @refresh="loadMatches()"></match-details>
       </v-col>
     </v-row>
   </v-container>
@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     async loadMatches() {
+      console.log("refrese");
       this.loading = true;
       // let page = this.$store.getters["page"];
       // let hasNext = this.$store.getters["hasNext"];
