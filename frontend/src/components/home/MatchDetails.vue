@@ -56,6 +56,20 @@
             <b>Second Linesman: </b>{{ match.secondLinesman }}
           </p>
         </v-card-text>
+
+        <v-card-title class="details-title">Available Seats</v-card-title
+        ><v-container>
+          <v-row v-for="row in this.match.seats" :key="row">
+            <v-col v-for="col in row" :key="col" @click="chooseSeat(col)">
+              <v-icon
+                class="seat-icon"
+                size="large"
+                :color="!col.isReserved ? 'success' : 'grey darken-3'"
+                >mdi-seat</v-icon
+              >
+            </v-col>
+          </v-row>
+        </v-container>
         <v-card-actions>
           <v-btn @click="closeDetails" class="btn">Close</v-btn>
         </v-card-actions>
