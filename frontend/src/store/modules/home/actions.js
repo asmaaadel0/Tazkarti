@@ -194,15 +194,19 @@ export default {
 
   async loadAllReservations(context, payload) {
     const baseurl = payload.baseurl;
-    const body = { userName: localStorage.getItem("userName") };
+    const userName = localStorage.getItem("userName");
 
-    console.log("reservations");
-    const response = await fetch(baseurl + "/api/ticket/allTickets", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    console.log("reservations");
+    console.log(baseurl + "/api/ticket/allTickets");
+    const response = await fetch(
+      baseurl + "/api/ticket/allTickets/" + userName,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }
+    );
 
     const responseData = await response.json();
 
