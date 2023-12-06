@@ -139,7 +139,9 @@ userSchema.statics.deleteUser = async function(_id) {
 };
 
 userSchema.statics.getunAunothorizedUsers = async function() {
-  const user = await this.find({ isPending: true });
+  const rolesToFind = ['manager', 'fan'];
+  const user = await this.find({ isPending: true, role: { $in: rolesToFind } });
+  // const user = await this.find({ isPending: true });
   if (!user) {
     throw Error('no pending users  found !');
   }
@@ -161,7 +163,9 @@ userSchema.statics.approveUser = async function(_id) {
 };
 
 userSchema.statics.getAllUsers = async function() {
-  const users = await this.find();
+  const rolesToFind = ['manager', 'fan'];
+  const users = await this.find({ role: { $in: rolesToFind } });
+  // const users = await this.find();
   if (!users) {
     throw Error('no users found !');
   }
