@@ -45,7 +45,6 @@ export default {
       this.reservations = this.reservations.concat(
         this.$store.getters["reservations"]
       );
-      console.log(this.reservations);
       this.loading = false;
     },
   },

@@ -196,7 +196,6 @@ export default {
     const baseurl = payload.baseurl;
     const userName = localStorage.getItem("userName");
 
-    console.log(baseurl + "/api/ticket/allTickets");
     const response = await fetch(
       baseurl + "/api/ticket/allTickets/" + userName,
       {
@@ -213,13 +212,13 @@ export default {
     if (response.status == 200) {
       const reservations = [];
 
-      for (let i = 0; i < responseData.length; i++) {
+      for (let i = 0; i < responseData.tickets.length; i++) {
         const reservation = {
-          id: responseData[i]._id,
-          matchId: responseData[i].matchId,
-          seatNumber: responseData[i].seatNumber,
-          userName: responseData[i].userName,
-          price: responseData[i].price,
+          id: responseData.tickets[i]._id,
+          matchId: responseData.tickets[i].matchId,
+          seatNumber: responseData.tickets[i].seatNumber,
+          userName: responseData.tickets[i].userName,
+          price: responseData.tickets[i].price,
         };
         reservations.push(reservation);
       }
@@ -230,5 +229,39 @@ export default {
       const error = new Error(responseData.error);
       throw error;
     }
+  },
+
+  async loadMatch(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const id = payload.id;
+
+    const response = await fetch(baseurl + "/api/match/viewMatch/" + id, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const responseData = await response.json();
+    if (response.status == 200) {
+      const match = {
+        id: responseData._id,
+        homeTeam: responseData.homeTeam,
+        awayTeam: responseData.awayTeam,
+        venue: responseData.venue,
+        dateTime: responseData.dateTime,
+        mainReferee: responseData.mainReferee,
+        firstLinesman: responseData.firstLinesman,
+        secondLinesman: responseData.secondLinesman,
+        ticketPrice: responseData.ticketPrice,
+        seats: responseData.seats,
+      };
+      context.commit("setMatch", match);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+    // }
   },
 };
