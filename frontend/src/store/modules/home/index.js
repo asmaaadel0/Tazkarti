@@ -10,6 +10,7 @@ export default {
       reservations: [],
       hasNext: true,
       page: 1,
+      match: {},
     };
   },
   mutations,

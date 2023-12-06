@@ -14,4 +14,7 @@ export default {
   reservations(state) {
     return state.reservations;
   },
+  match(state) {
+    return state.match;
+  },
 };

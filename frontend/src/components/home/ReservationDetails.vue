@@ -1,29 +1,22 @@
 <template>
-  <v-card class="staduim-card">
-    <v-card-text class="text-center match-day">
-      <v-img
-        src="@/assets/small-stadium.jpg"
-        alt="Home Image"
-        class="home-image"
-      ></v-img>
-      <div class="text-block">
-        <h3>Staduim: {{ index + 1 }}</h3>
-      </div>
+  <v-card class="reservation-card">
+    <v-card-text class="text-center team-info margin">
+      <p class="details-title">
+        {{ match.homeTeam }} <b class="vs">vs</b> {{ match.awayTeam }}
+      </p>
+    </v-card-text>
+    <v-card-text class="center">
+      <p class="details-title"><b>Match Venue: </b>{{ match.venue }}</p>
+      <p class="details-title"><b>Date: </b>{{ date }}</p>
+      <p class="details-title"><b>Time: </b>{{ time }}</p>
     </v-card-text>
     <v-card-text class="text-center team-info">
-      <p class="details-title"><b>Name:</b> {{ staduim.name }}</p>
+      <p class="details-title"><b>Price:</b> {{ reservation.price }}</p>
     </v-card-text>
     <v-card-text class="text-center team-info">
-      <p class="details-title"><b>City:</b> {{ staduim.city }}</p>
-    </v-card-text>
-    <v-card-text class="text-center team-info">
-      <p class="details-title"><b>Address:</b> {{ staduim.address }}</p>
-    </v-card-text>
-    <v-card-text class="text-center team-info">
-      <p class="details-title"><b>Rows:</b> {{ staduim.rows }}</p>
-    </v-card-text>
-    <v-card-text class="text-center team-info">
-      <p class="details-title"><b>Row Seats:</b> {{ staduim.rowSeats }}</p>
+      <p class="details-title">
+        <b>Seat Number:</b> {{ reservation.seatNumber }}
+      </p>
     </v-card-text>
     <v-btn block @click="cancelReservation()" color="red"
       ><v-icon size="24">mdi-close</v-icon> Cancel Reservation</v-btn
@@ -34,7 +27,7 @@
 <script>
 export default {
   props: {
-    staduim: {
+    reservation: {
       type: Object,
       required: true,
     },
@@ -43,36 +36,61 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      loading: false,
+      match: {},
+    };
+  },
+  computed: {
+    date() {
+      const dateTime = new Date(this.match.dateTime);
+      const year = dateTime.getFullYear();
+      const month = dateTime.getMonth() + 1;
+      const day = dateTime.getDate();
+      return day + "-" + month + "-" + year;
+    },
+    time() {
+      const dateTime = new Date(this.match.dateTime);
+      const hours = dateTime.getHours();
+      const minutes = dateTime.getMinutes();
+      const seconds = dateTime.getSeconds();
+      return hours + ":" + minutes + ":" + seconds;
+    },
+  },
+  beforeMount() {
+    this.getMatchDetails();
+  },
   methods: {
-    cancelReservation() {},
+    cancelReservation() {
+      this.$emit("cancel-reservation", this.reservation.id);
+    },
+    async getMatchDetails() {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("loadMatch", {
+          baseurl: this.$baseurl,
+          id: this.reservation.matchId,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.match = this.$store.getters["match"];
+      this.loading = false;
+    },
   },
 };
 </script>
 
 <style scoped>
-.btn {
-  background-color: red;
-}
-.match-day {
-  position: relative;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 8px;
-}
-.text-block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: var(--color-white);
-}
-.margin-top {
-  margin-top: 1rem;
-}
 .center {
   text-align: center;
 }
-.staduim-card {
+.reservation-card {
   position: relative;
   overflow: hidden;
   width: 20rem;
@@ -101,5 +119,8 @@ export default {
 b {
   color: var(--color-white);
   margin-right: 0.5rem;
+}
+.vs {
+  color: var(--color-primary-light);
 }
 </style>

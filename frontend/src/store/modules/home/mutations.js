@@ -14,4 +14,7 @@ export default {
   setReservations(state, payload) {
     state.reservations = payload;
   },
+  setMatch(state, payload) {
+    state.match = payload;
+  },
 };
