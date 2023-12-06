@@ -223,6 +223,9 @@ export default {
       this.reserve = false;
     },
     editMatch() {
+      if (!localStorage.getItem("accessToken")) {
+        this.$router.push("/login");
+      }
       this.editMatchDialog = true;
     },
     closeEditMatch() {
