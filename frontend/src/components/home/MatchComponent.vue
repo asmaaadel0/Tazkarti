@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     async loadMatches() {
-      console.log("refrese");
       this.loading = true;
       // let page = this.$store.getters["page"];
       // let hasNext = this.$store.getters["hasNext"];
