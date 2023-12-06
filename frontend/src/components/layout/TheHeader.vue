@@ -21,6 +21,7 @@
         <v-btn v-if="userName" @click="logout" class="btn">Logout</v-btn>
       </div>
       <div v-if="role == 'manager'">
+        <v-btn @click="matches" class="btn">Matches</v-btn>
         <v-btn @click="showAddMatch" class="btn">Add Matche</v-btn>
         <v-btn @click="showAddStaduim" class="btn">Add Stadium</v-btn>
         <v-btn @click="editProfile" class="btn">Edit Profile</v-btn>
@@ -35,6 +36,8 @@
     </v-app-bar>
     <add-match
       :addMatchDialog="addMatchDialog"
+      :isEdited="false"
+      :match="{}"
       @close-match="closeAddMatch"
     ></add-match>
     <add-staduim

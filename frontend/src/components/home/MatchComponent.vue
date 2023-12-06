@@ -21,9 +21,8 @@ export default {
     };
   },
   async created() {
+    this.loading = true;
     if (localStorage.getItem("accessToken")) {
-      this.loading = true;
-      await this.loadMatches();
       // let hasNext = this.$store.getters["hasNext"];
       // console.log("finish1");
       // while (hasNext != false) {
@@ -33,6 +32,7 @@ export default {
       // }
       // console.log("finish3");
     }
+    await this.loadMatches();
     this.loading = false;
   },
   methods: {

@@ -50,7 +50,30 @@
         <v-card-text class="text-center team-info">
           <p class="details-title"><b>Role: </b>{{ user.role }}</p>
         </v-card-text>
+        <v-card-text class="text-center team-info">
+          <v-row>
+            <v-col cols="5">
+              <v-btn
+                class="mx-1 mx-md-3"
+                fab
+                dark
+                small
+                color="red"
+                @click="disApproveUser(user.id)"
+              >
+                Remove User
+                <v-icon dark> mdi-account-remove-outline </v-icon>
+              </v-btn></v-col
+            ></v-row
+          ></v-card-text
+        >
       </v-card>
+      <v-col cols="12">
+        <v-alert v-if="confirmed" shaped type="success">
+          Removed Successfully
+        </v-alert>
+        <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+      </v-col>
     </div>
   </div>
 </template>
@@ -64,6 +87,9 @@ export default {
       user: {},
       showDetails: false,
       birthDate: "",
+
+      error: "",
+      confirmed: false,
     };
   },
   async beforeMount() {
@@ -75,6 +101,8 @@ export default {
       await this.loadUsers();
     }
     this.loading = false;
+    this.confirmed = false;
+    this.error = "";
   },
   methods: {
     date() {
@@ -94,6 +122,7 @@ export default {
     },
     async loadUsers() {
       this.loading = true;
+      this.error = "";
 
       try {
         await this.$store.dispatch("loadAllUsers", {
@@ -104,9 +133,37 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
       this.users = this.$store.getters["users"];
       this.loading = false;
+      this.error = "";
+    },
+
+    async disApproveUser(id) {
+      this.loading = true;
+      this.confirmed = false;
+      this.error = "";
+
+      try {
+        await this.$store.dispatch("disApproveUser", {
+          baseurl: this.$baseurl,
+          id: id,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+        this.loading = false;
+        return;
+      }
+      this.confirmed = true;
+      this.success = "User is Disapproved Successfully";
+      this.loadUsers();
+      this.loading = false;
+      this.showDetails = false;
     },
   },
 };

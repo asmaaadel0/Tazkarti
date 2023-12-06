@@ -16,7 +16,7 @@ export default {
       const user = {
         address: responseData.user.address,
         isPending: responseData.user.isPending,
-        _id: responseData.user._id,
+        id: responseData.user._id,
         userName: responseData.user.userName,
         password: responseData.user.password,
         firstName: responseData.user.firstName,
@@ -170,7 +170,6 @@ export default {
     const responseData = await response.json();
     if (response.status == 200) {
       context.commit("setDone", true);
-      console.log("done");
     }
 
     if (response.status == 400) {
@@ -195,7 +194,6 @@ export default {
     const responseData = await response.json();
     if (response.status == 200) {
       context.commit("setDone", true);
-      console.log("done");
     }
 
     if (response.status == 400) {

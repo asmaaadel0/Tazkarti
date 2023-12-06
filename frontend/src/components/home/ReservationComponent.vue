@@ -2,17 +2,20 @@
   <v-container fluid>
     <v-row class="staduims">
       <v-col v-for="(staduim, index) in staduims" :key="staduim.id">
-        <staduim-details :staduim="staduim" :index="index"></staduim-details>
+        <reservation-details
+          :staduim="staduim"
+          :index="index"
+        ></reservation-details>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import StaduimDetails from "./StaduimDetails.vue";
+import ReservationDetails from "./ReservationDetails.vue";
 export default {
   components: {
-    StaduimDetails,
+    ReservationDetails,
   },
   data() {
     return {

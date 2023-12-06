@@ -80,6 +80,12 @@
             ></v-row
           ></v-card-text
         >
+        <v-col cols="12">
+          <v-alert v-if="confirmed" shaped type="success">
+            {{ success }}
+          </v-alert>
+          <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+        </v-col>
       </v-card>
     </div>
   </div>
@@ -91,9 +97,13 @@ export default {
       loading: false,
       users: [],
 
+      error: "",
+      confirmed: false,
+
       user: {},
       showDetails: false,
       birthDate: "",
+      success: "",
     };
   },
   async beforeMount() {
@@ -105,6 +115,8 @@ export default {
       await this.loadUsers();
     }
     this.loading = false;
+    this.confirmed = false;
+    this.error = "";
   },
   methods: {
     date() {
@@ -117,6 +129,7 @@ export default {
     showUserDetails(id) {
       this.getUserById(id);
       this.date();
+      this.confirmed = false;
       this.showDetails = true;
     },
     getUserById(userId) {
@@ -124,6 +137,7 @@ export default {
     },
     async loadUsers() {
       this.loading = true;
+      this.error = "";
 
       try {
         await this.$store.dispatch("loadUnAuthorizedUsers", {
@@ -140,6 +154,8 @@ export default {
     },
     async approveUser(id) {
       this.loading = true;
+      this.confirmed = false;
+      this.error = "";
 
       try {
         await this.$store.dispatch("approveUser", {
@@ -151,12 +167,18 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
       this.loadUsers();
       this.loading = false;
+      this.success = "User is Approved Successfully";
+      this.confirmed = true;
     },
     async disApproveUser(id) {
       this.loading = true;
+      this.confirmed = false;
+      this.error = "";
 
       try {
         await this.$store.dispatch("disApproveUser", {
@@ -168,7 +190,11 @@ export default {
         if (error.message == "Server Error") {
           this.$router.push("/internal-server-error");
         }
+        this.loading = false;
+        return;
       }
+      this.confirmed = true;
+      this.success = "User is Disapproved Successfully";
       this.loadUsers();
       this.loading = false;
       this.showDetails = false;

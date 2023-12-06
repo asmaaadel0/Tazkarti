@@ -1,9 +1,11 @@
 <template>
   <v-dialog v-model="dialog" max-width="600">
     <v-card class="details-dialog">
-      <v-card-title class="details-title">Add Match </v-card-title>
+      <v-card-title class="details-title"
+        >Add Match {{ dateTime }}</v-card-title
+      >
       <v-card-text class="center">
-        <v-form ref="form" @submit.prevent="addMatch()">
+        <v-form ref="form" @submit.prevent="submitMatch">
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
@@ -82,16 +84,33 @@
                 :rules="[validateInput]"
               ></v-text-field>
             </v-col>
-            <p class="error" v-if="error != ''">
-              {{ error }}
-            </p>
             <v-col cols="12"> </v-col>
           </v-row>
+          <v-alert v-if="confirmed && isEdited" shaped type="success">
+            Match is Edited successfully
+          </v-alert>
+          <v-alert v-if="confirmed && !isEdited" shaped type="success">
+            Match is added successfully
+          </v-alert>
+          <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
           <v-card-actions>
-            <v-btn @click="closeAddMatch" class="btn">Close</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn type="submit" class="btn" block :loading="loading"
-              >Add Match</v-btn
+            <v-col>
+              <v-btn @click="closeAddMatch" class="btn">Close</v-btn></v-col
+            >
+            <v-col>
+              <v-spacer></v-spacer>
+
+              <v-btn
+                type="submit"
+                class="btn"
+                block
+                :loading="loading"
+                v-if="isEdited"
+                >Edit Match</v-btn
+              >
+              <v-btn type="submit" class="btn" block :loading="loading" v-else
+                >Add Match</v-btn
+              ></v-col
             >
           </v-card-actions>
         </v-form>
@@ -106,6 +125,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    isEdited: {
+      type: Boolean,
+      required: true,
+    },
+    match: {
+      type: Object,
+      required: true,
+    },
   },
   watch: {
     addMatchDialog(newVal) {
@@ -116,21 +143,56 @@ export default {
     return {
       dialog: this.addMatchDialog,
 
-      homeTeam: "",
-      awayTeam: "",
-      venue: "",
-      dateTime: "",
-      mainReferee: "",
-      firstLinesman: "",
-      secondLinesman: "",
-      ticketPrice: null,
+      homeTeam: this.match.homeTeam,
+      awayTeam: this.match.awayTeam,
+      venue: this.match.venue,
+      dateTime: this.match.dateTime,
+      mainReferee: this.match.mainReferee,
+      firstLinesman: this.match.firstLinesman,
+      secondLinesman: this.match.secondLinesman,
+      ticketPrice: this.match.ticketPrice,
 
       error: "",
 
       loading: false,
+      confirmed: false,
     };
   },
+  created() {
+    this.loading = false;
+    this.confirmed = false;
+    if (this.isEdited) {
+      this.formatDateTime();
+    }
+  },
+  computed: {
+    date() {
+      const dateTime = new Date(this.match.dateTime);
+      const year = dateTime.getFullYear();
+      let month = dateTime.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      let day = dateTime.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      return year + "-" + month + "-" + day;
+    },
+    time() {
+      const dateTime = new Date(this.match.dateTime);
+      const hours = dateTime.getHours();
+      let minutes = dateTime.getMinutes();
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      return hours + ":" + minutes;
+    },
+  },
   methods: {
+    formatDateTime() {
+      this.dateTime = this.date + "T" + this.time;
+    },
     showAddMatch() {
       this.dialog = true;
     },
@@ -139,12 +201,13 @@ export default {
       this.dialog = false;
     },
     validateInput(value) {
+      this.confirmed = false;
       if (!value) {
         return "This Field is Required";
       }
       return true;
     },
-    async addMatch() {
+    async submitMatch() {
       if (
         !this.homeTeam ||
         !this.awayTeam ||
@@ -171,17 +234,25 @@ export default {
 
         baseurl: this.$baseurl,
       };
-
-      try {
-        await this.$store.dispatch("addMatch", actionPayload);
-      } catch (err) {
-        this.error = err.message;
-        this.loading = false;
-        return;
+      if (!this.isEdited) {
+        try {
+          await this.$store.dispatch("addMatch", actionPayload);
+        } catch (err) {
+          this.error = err.message;
+          this.loading = false;
+          return;
+        }
+      } else {
+        try {
+          await this.$store.dispatch("editMatch", actionPayload);
+        } catch (err) {
+          this.error = err.message;
+          this.loading = false;
+          return;
+        }
       }
-
       this.loading = false;
-      this.closeAddMatch();
+      this.confirmed = true;
     },
   },
 };
