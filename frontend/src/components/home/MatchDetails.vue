@@ -107,12 +107,14 @@
         <v-container>
           <v-row v-for="row in this.match.seats" :key="row">
             <v-col v-for="col in row" :key="col" @click="chooseSeat(col)">
-              <v-icon
-                class="seat-icon"
-                size="large"
-                :color="!col.isReserved ? 'success' : 'grey darken-3'"
-                >mdi-seat</v-icon
-              >
+              <div class="seat">
+                <v-icon
+                  class="seat-icon"
+                  size="large"
+                  :color="!col.isReserved ? 'success' : 'grey darken-3'"
+                  >mdi-seat</v-icon
+                >
+              </div>
             </v-col>
           </v-row>
         </v-container>
@@ -327,6 +329,13 @@ export default {
 .team-name {
   color: var(--color-white);
   font-size: 1.5rem;
+}
+.seat {
+  border-radius: 20%;
+  width: 1.8rem;
+}
+.seat:hover {
+  background-color: yellow;
 }
 
 .details-title {
