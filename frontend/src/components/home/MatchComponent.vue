@@ -53,7 +53,7 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      this.matches = this.matches.concat(this.$store.getters["matches"]);
+      this.matches = this.$store.getters["matches"];
       this.loading = false;
     },
   },
