@@ -9,5 +9,6 @@ const ticketController = require('../controllers/ticketController.js');
 
 ticketRouter.post('/reserveTicket', ticketController.reserveTicket);
 ticketRouter.get('/allTickets', ticketController.getAlltickets);
+ticketRouter.delete('/deleteTicket/:id', ticketController.deleteTicket);
 
 module.exports = ticketRouter;

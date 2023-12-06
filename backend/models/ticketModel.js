@@ -34,6 +34,14 @@ ticketSchema.statics.getAlltickets = async function(userName) {
 
   return tickets;
 };
+ticketSchema.statics.deleteTicket = async function(_id) {
+  const ticket = await this.deleteOne({ _id });
+  if (!ticket) {
+    throw Error('no ticket found to be deleted !');
+  }
+
+  return ticket;
+};
 
 const ticketModel = mongoose.model('Ticket', ticketSchema);
 
