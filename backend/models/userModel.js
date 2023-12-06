@@ -99,6 +99,10 @@ userSchema.statics.login = async function(userName, password) {
   if (!user) {
     throw Error('incorrect userName !');
   }
+  if (user.role !== 'admin' && user.isPending === false)
+    throw Error(
+      " you can't login now you aren't authorized yet by the admin yet ! "
+    );
   console.log(user.role);
   const match = await becrypt.compare(password.toString(), user.password);
   console.log(match);

@@ -10,7 +10,6 @@ const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
     const user = await userModel.login(userName, password);
-
     const token = createToken(user._id);
     const role = user.role;
     const _id = user._id;
