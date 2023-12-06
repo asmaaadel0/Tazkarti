@@ -207,8 +207,6 @@ export default {
   methods: {
     showDetails() {
       this.dialog = true;
-      this.confirmed = false;
-      this.loading = false;
     },
     closeDetails() {
       this.dialog = false;
@@ -218,15 +216,21 @@ export default {
         this.$router.push("/login");
       }
       this.reserve = true;
+      this.confirmed = false;
+      this.loading = false;
     },
     closeReserve() {
       this.reserve = false;
+      this.confirmed = false;
+      this.loading = false;
     },
     editMatch() {
       if (!localStorage.getItem("accessToken")) {
         this.$router.push("/login");
       }
       this.editMatchDialog = true;
+      this.confirmed = false;
+      this.loading = false;
     },
     closeEditMatch() {
       this.editMatchDialog = false;
