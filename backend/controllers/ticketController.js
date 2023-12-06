@@ -65,7 +65,19 @@ const reserveTicket = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+const getAlltickets = async (req, res) => {
+  try {
+    const tickets = await ticketModel.getAlltickets(req.body.userName);
+
+    return res.status(200).json({
+      tickets
+    });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
-  reserveTicket
+  reserveTicket,
+  getAlltickets
 };

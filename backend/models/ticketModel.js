@@ -26,6 +26,15 @@ ticketSchema.statics.reserveTicket = async function(
   return ticket;
 };
 
+ticketSchema.statics.getAlltickets = async function(userName) {
+  const tickets = await this.find({ userName });
+  if (!tickets) {
+    throw Error('no  tickets was found for this user !');
+  }
+
+  return tickets;
+};
+
 const ticketModel = mongoose.model('Ticket', ticketSchema);
 
 module.exports = ticketModel;

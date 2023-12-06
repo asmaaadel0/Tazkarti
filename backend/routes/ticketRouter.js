@@ -8,5 +8,6 @@ ticketRouter.use(requireAuth);
 const ticketController = require('../controllers/ticketController.js');
 
 ticketRouter.post('/reserveTicket', ticketController.reserveTicket);
+ticketRouter.get('/allTickets', ticketController.getAlltickets);
 
 module.exports = ticketRouter;
