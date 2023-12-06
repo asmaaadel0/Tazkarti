@@ -62,18 +62,41 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="reserve" max-width="600">
-      <v-card class="details-dialog">
+      <v-card>
+        <v-row class="details-dialog">
+          <v-col cols="18" sm="6">
+            <v-text-field
+              type="number"
+              label="Credit Card"
+              prepend-inner-icon="mdi-credit-card"
+              class="input-label"
+              v-model="creditCard"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="18" sm="6">
+            <v-text-field
+              type="password"
+              label="Pin Number"
+              prepend-inner-icon="mdi-lock"
+              class="input-label"
+              v-model="pinNumber"
+            ></v-text-field>
+          </v-col>
+        </v-row>
         <v-card-title class="details-title">Choose Your Seat</v-card-title>
-        <v-col>
-          <v-icon
-            v-for="k in 10"
-            :key="k"
-            class="seat-icon"
-            size="large"
-            color="success"
-            >mdi-seat</v-icon
-          >
-        </v-col>
+
+        <v-container>
+          <v-row v-for="row in this.match.seats" :key="row">
+            <v-col v-for="col in row" :key="col" @click="chooseSeat(col)">
+              <v-icon
+                class="seat-icon"
+                size="large"
+                :color="!col.isReserved ? 'success' : 'grey darken-3'"
+                >mdi-seat</v-icon
+              >
+            </v-col>
+          </v-row>
+        </v-container>
         <v-col cols="12">
           <v-alert v-if="confirmed" shaped type="success">
             Seat is Reserved successfully
@@ -83,7 +106,12 @@
         <v-card-actions>
           <v-col> <v-btn @click="closeReserve" class="btn">Close</v-btn></v-col>
           <v-col>
-            <v-btn type="submit" class="btn" block :loading="loading"
+            <v-btn
+              type="submit"
+              class="btn"
+              block
+              :loading="loading"
+              @click="reserveTicket"
               >Reserve</v-btn
             ></v-col
           >
@@ -108,6 +136,11 @@ export default {
 
       error: "",
       confirmed: false,
+      loading: false,
+
+      creditCard: "",
+      pinNumber: "",
+      choosenSeat: "",
     };
   },
   computed: {
@@ -125,14 +158,23 @@ export default {
       const seconds = dateTime.getSeconds();
       return hours + ":" + minutes + ":" + seconds;
     },
+    numRows() {
+      return this.match.seats.length;
+    },
+    numSeatsRow() {
+      return this.match.seats[0].length;
+    },
   },
   created() {
     this.error = "";
     this.confirmed = false;
+    this.loading = false;
   },
   methods: {
     showDetails() {
       this.dialog = true;
+      this.confirmed = false;
+      this.loading = false;
     },
     closeDetails() {
       this.dialog = false;
@@ -146,11 +188,53 @@ export default {
     closeReserve() {
       this.reserve = false;
     },
+    chooseSeat(seat) {
+      this.error = "";
+      this.confirmed = false;
+      this.choosenSeat = seat.number;
+    },
+    async reserveTicket() {
+      this.error = "";
+      this.confirmed = false;
+      if (this.creditCard.length != 14) {
+        this.error = "Enter valid Credit Card";
+        return;
+      }
+      if (this.pinNumber.length != 4) {
+        this.error = "Enter valid Pin Number";
+        return;
+      }
+      if (!this.choosenSeat) {
+        this.error = "Choose Your Seat!";
+        return;
+      }
+      const actionPayload = {
+        matchId: this.match.id,
+        seatNumber: this.choosenSeat,
+        userName: localStorage.getItem("userName"),
+
+        baseurl: this.$baseurl,
+      };
+
+      try {
+        await this.$store.dispatch("reserveSeat", actionPayload);
+      } catch (err) {
+        this.error = err.message;
+        this.loading = false;
+        return;
+      }
+
+      this.loading = false;
+      this.confirmed = true;
+    },
   },
 };
 </script>
 
 <style scoped>
+.details-dialog {
+  margin: 2rem;
+}
 .margin-top {
   margin-top: 1rem;
 }

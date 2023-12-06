@@ -18,7 +18,7 @@ export default {
 
       for (let i = 0; i < responseData.matches.length; i++) {
         const match = {
-          _id: responseData.matches[i]._id,
+          id: responseData.matches[i]._id,
           homeTeam: responseData.matches[i].homeTeam,
           awayTeam: responseData.matches[i].awayTeam,
           venue: responseData.matches[i].venue,
@@ -27,6 +27,7 @@ export default {
           firstLinesman: responseData.matches[i].firstLinesman,
           secondLinesman: responseData.matches[i].secondLinesman,
           ticketPrice: responseData.matches[i].ticketPrice,
+          seats: responseData.matches[i].seats,
         };
         matches.push(match);
       }
@@ -88,7 +89,7 @@ export default {
 
       for (let i = 0; i < responseData.length; i++) {
         const staduim = {
-          _id: responseData[i]._id,
+          id: responseData[i]._id,
           name: responseData[i].name,
           city: responseData[i].city,
           address: responseData[i].address,
@@ -130,6 +131,32 @@ export default {
 
     if (!response.ok) {
       const error = new Error(responseData.err || responseData.msg);
+      throw error;
+    }
+  },
+
+  async reserveSeat(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const details = {
+      matchId: payload.matchId,
+      seatNumber: payload.seatNumber,
+      userName: payload.userName,
+    };
+
+    const response = await fetch(baseurl + "/api/ticket/reserveTicket", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(details),
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(responseData.error || responseData.msg);
       throw error;
     }
   },

@@ -16,7 +16,7 @@ export default {
       const user = {
         address: responseData.user.address,
         isPending: responseData.user.isPending,
-        _id: responseData.user._id,
+        id: responseData.user._id,
         userName: responseData.user.userName,
         password: responseData.user.password,
         firstName: responseData.user.firstName,
