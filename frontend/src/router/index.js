@@ -1,9 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "../views/auth/LoginView.vue";
 import SignupView from "../views/auth/SignupView.vue";
+
 import MatchesView from "../views/home/MatchesView.vue";
 import StaduimsView from "../views/home/StaduimsView.vue";
+
 import EditProfileView from "../views/user/EditProfileView.vue";
+
+import ReservationView from "../views/home/ReservationView.vue";
+
 import UsersView from "../views/admin/UsersView.vue";
 import RequestsView from "../views/admin/RequestsView.vue";
 
@@ -32,6 +37,12 @@ const routes = [
     name: "staduims",
     alias: "/",
     component: StaduimsView,
+  },
+  {
+    path: "/reservation",
+    name: "reservation",
+    alias: "/",
+    component: ReservationView,
   },
   {
     path: "/edit-profile",

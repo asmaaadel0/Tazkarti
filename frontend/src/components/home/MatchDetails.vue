@@ -34,7 +34,12 @@
       <v-btn block @click="showDetails()" class="margin-top"
         >View Details</v-btn
       >
-      <v-btn block @click="reserveMatch()" class="margin-top">Reserve</v-btn>
+      <v-btn block @click="editMatch()" class="margin-top" v-if="isManager"
+        >Edit Match Details</v-btn
+      >
+      <v-btn block @click="reserveMatch()" v-else class="margin-top"
+        >Reserve</v-btn
+      >
     </v-card-text>
     <v-dialog v-model="dialog" max-width="600">
       <v-card class="details-dialog">
@@ -158,6 +163,9 @@ export default {
     };
   },
   computed: {
+    isManager() {
+      return localStorage.getItem("role") == "manager";
+    },
     date() {
       const dateTime = new Date(this.match.dateTime);
       const year = dateTime.getFullYear();
