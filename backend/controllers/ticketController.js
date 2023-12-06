@@ -61,7 +61,7 @@ const reserveTicket = async (req, res) => {
 };
 const getAlltickets = async (req, res) => {
   try {
-    const tickets = await ticketModel.getAlltickets(req.body.userName);
+    const tickets = await ticketModel.getAlltickets(req.params.userName);
 
     return res.status(200).json({
       tickets

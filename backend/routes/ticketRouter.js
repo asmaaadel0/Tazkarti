@@ -8,7 +8,7 @@ ticketRouter.use(requireAuth);
 const ticketController = require('../controllers/ticketController.js');
 
 ticketRouter.post('/reserveTicket', ticketController.reserveTicket);
-ticketRouter.get('/allTickets', ticketController.getAlltickets);
+ticketRouter.get('/allTickets/:userName', ticketController.getAlltickets);
 ticketRouter.delete('/deleteTicket/:id', ticketController.deleteTicket);
 
 module.exports = ticketRouter;
