@@ -264,4 +264,28 @@ export default {
     }
     // }
   },
+
+  async deleteReservation(context, payload) {
+    const baseurl = payload.baseurl;
+    const id = payload.id;
+    const body = {
+      userName: localStorage.getItem("userName"),
+    };
+
+    const response = await fetch(baseurl + "/api/ticket/deleteTicket/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };

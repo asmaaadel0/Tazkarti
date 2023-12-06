@@ -62,7 +62,9 @@ export default {
     this.getMatchDetails();
   },
   methods: {
-    cancelReservation() {},
+    cancelReservation() {
+      this.$emit("cancel-reservation", this.reservation.id);
+    },
     async getMatchDetails() {
       this.loading = true;
 
