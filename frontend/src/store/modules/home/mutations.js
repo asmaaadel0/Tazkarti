@@ -11,4 +11,7 @@ export default {
   setPage(state, payload) {
     state.page = payload;
   },
+  setReservations(state, payload) {
+    state.reservations = payload;
+  },
 };

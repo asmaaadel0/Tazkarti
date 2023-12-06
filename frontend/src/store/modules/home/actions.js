@@ -191,4 +191,40 @@ export default {
       throw error;
     }
   },
+
+  async loadAllReservations(context, payload) {
+    const baseurl = payload.baseurl;
+    const body = { userName: localStorage.getItem("userName") };
+
+    console.log("reservations");
+    const response = await fetch(baseurl + "/api/ticket/allTickets", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    console.log("reservations");
+
+    const responseData = await response.json();
+
+    if (response.status == 200) {
+      const reservations = [];
+
+      for (let i = 0; i < responseData.length; i++) {
+        const reservation = {
+          id: responseData[i]._id,
+          matchId: responseData[i].matchId,
+          seatNumber: responseData[i].seatNumber,
+          userName: responseData[i].userName,
+          price: responseData[i].price,
+        };
+        reservations.push(reservation);
+      }
+      context.commit("setReservations", reservations);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };

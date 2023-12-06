@@ -11,4 +11,7 @@ export default {
   hasNext(state) {
     return state.hasNext;
   },
+  reservations(state) {
+    return state.reservations;
+  },
 };

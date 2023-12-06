@@ -7,6 +7,7 @@ export default {
     return {
       matches: [],
       staduims: [],
+      reservations: [],
       hasNext: true,
       page: 1,
     };

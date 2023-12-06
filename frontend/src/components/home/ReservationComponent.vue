@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
-    <v-row class="staduims">
-      <v-col v-for="(staduim, index) in staduims" :key="staduim.id">
+    <v-row class="reservations">
+      <v-col v-for="(reservation, index) in reservations" :key="reservation.id">
         <reservation-details
-          :staduim="staduim"
+          :reservation="reservation"
           :index="index"
         ></reservation-details>
       </v-col>
@@ -20,20 +20,20 @@ export default {
   data() {
     return {
       loading: false,
-      staduims: [],
+      reservations: [],
     };
   },
   async created() {
     this.loading = true;
-    await this.loadStaduims();
+    await this.loadReservations();
     this.loading = false;
   },
   methods: {
-    async loadStaduims() {
+    async loadReservations() {
       this.loading = true;
 
       try {
-        await this.$store.dispatch("loadAllStaduims", {
+        await this.$store.dispatch("loadAllReservations", {
           baseurl: this.$baseurl,
         });
       } catch (error) {
@@ -42,7 +42,10 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      this.staduims = this.staduims.concat(this.$store.getters["staduims"]);
+      this.reservations = this.reservations.concat(
+        this.$store.getters["reservations"]
+      );
+      console.log(this.reservations);
       this.loading = false;
     },
   },
@@ -53,7 +56,7 @@ export default {
 .v-col {
   flex-grow: 0;
 }
-.staduims {
+.reservations {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
