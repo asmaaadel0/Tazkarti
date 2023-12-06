@@ -5,7 +5,7 @@
         >Add Match {{ dateTime }}</v-card-title
       >
       <v-card-text class="center">
-        <v-form ref="form" @submit.prevent="addMatch()">
+        <v-form ref="form" @submit.prevent="submitMatch">
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
@@ -207,7 +207,7 @@ export default {
       }
       return true;
     },
-    async addMatch() {
+    async submitMatch() {
       if (
         !this.homeTeam ||
         !this.awayTeam ||
@@ -234,15 +234,23 @@ export default {
 
         baseurl: this.$baseurl,
       };
-
-      try {
-        await this.$store.dispatch("addMatch", actionPayload);
-      } catch (err) {
-        this.error = err.message;
-        this.loading = false;
-        return;
+      if (!this.isEdited) {
+        try {
+          await this.$store.dispatch("addMatch", actionPayload);
+        } catch (err) {
+          this.error = err.message;
+          this.loading = false;
+          return;
+        }
+      } else {
+        try {
+          await this.$store.dispatch("editMatch", actionPayload);
+        } catch (err) {
+          this.error = err.message;
+          this.loading = false;
+          return;
+        }
       }
-
       this.loading = false;
       this.confirmed = true;
     },
