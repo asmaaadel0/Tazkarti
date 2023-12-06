@@ -137,11 +137,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <add-match
+      :addMatchDialog="editMatchDialog"
+      :isEdited="true"
+      :match="match"
+      @close-match="closeEditMatch"
+    ></add-match>
   </v-card>
 </template>
 
 <script>
+import AddMatch from "../home/AddMatch.vue";
 export default {
+  components: {
+    AddMatch,
+  },
   props: {
     match: {
       type: Object,
@@ -160,6 +170,8 @@ export default {
       creditCard: "",
       pinNumber: "",
       choosenSeat: "",
+
+      editMatchDialog: false,
     };
   },
   computed: {
@@ -209,6 +221,12 @@ export default {
     },
     closeReserve() {
       this.reserve = false;
+    },
+    editMatch() {
+      this.editMatchDialog = true;
+    },
+    closeEditMatch() {
+      this.editMatchDialog = false;
     },
     chooseSeat(seat) {
       this.error = "";

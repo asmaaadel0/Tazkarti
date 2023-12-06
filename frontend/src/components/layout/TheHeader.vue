@@ -36,6 +36,8 @@
     </v-app-bar>
     <add-match
       :addMatchDialog="addMatchDialog"
+      :isEdited="false"
+      :match="{}"
       @close-match="closeAddMatch"
     ></add-match>
     <add-staduim
