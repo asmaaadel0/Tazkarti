@@ -99,7 +99,7 @@ userSchema.statics.login = async function(userName, password) {
   if (!user) {
     throw Error('incorrect userName !');
   }
-  if (user.role !== 'admin' && user.isPending === false)
+  if (user.role !== 'admin' && user.isPending === true)
     throw Error(
       " you can't login now you aren't authorized yet by the admin yet ! "
     );
