@@ -47,9 +47,10 @@ const signup = async (req, res) => {
       emailAddress,
       role
     );
-    const token = createToken(user._id);
+    // const token = createToken(user._id);
     const _id = user._id;
-    res.status(200).json({ _id, userName, token, role });
+    // res.status(200).json({ _id, userName, token, role });
+    res.status(200).json({ _id, userName, role });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
