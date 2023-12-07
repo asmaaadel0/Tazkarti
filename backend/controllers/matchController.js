@@ -74,6 +74,69 @@ const createMatch = async (req, res) => {
     });
 };
 
+const editMatch = async (req, res) => {
+  const { matchId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(matchId)) {
+    console.log(matchId);
+    return res.status(400).send({ err: 'Invalid match ID format.' });
+  }
+
+  let match;
+  try {
+    match = await Match.findById(matchId);
+    if (!match)
+      return res.status(404).send({ err: 'No matches for the given Id.' });
+
+    const { homeTeam } = req.body;
+    const { awayTeam } = req.body;
+    const { venue } = req.body;
+    const { dateTime } = req.body;
+    const { mainReferee } = req.body;
+    const { firstLinesman } = req.body;
+    const { secondLinesman } = req.body;
+    const { ticketPrice } = req.body;
+    const seats = match.seats;
+
+    if (homeTeam === awayTeam) {
+      return res.status(406).send({ msg: 'Two teams can not be the same' });
+    }
+    if (
+      mainReferee === firstLinesman ||
+      mainReferee === secondLinesman ||
+      firstLinesman === secondLinesman
+    ) {
+      return res.status(406).send({ msg: 'Referees should be different' });
+    }
+    const matchDate = new Date(dateTime);
+    if (matchDate <= new Date()) {
+      return res.status(406).send({ msg: 'Match should be in the future' });
+    }
+    const updatedMatch = {
+      homeTeam,
+      awayTeam,
+      venue,
+      dateTime,
+      mainReferee,
+      firstLinesman,
+      secondLinesman,
+      ticketPrice,
+      seats
+    };
+    try {
+      await Match.findByIdAndUpdate(matchId, updatedMatch, {
+        new: true
+      }).then(result => {
+        res.status(200).send({ msg: 'Match edited successfully!' });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  } catch (err) {
+    return res.status(500).send({ err: err.msg });
+  }
+};
+
 const viewMatch = async (req, res) => {
   const { matchId } = req.params;
 
@@ -154,4 +217,4 @@ const viewMatches = async (req, res) => {
     matches: matches
   });
 };
-module.exports = { createMatch, viewMatch, viewMatches };
+module.exports = { createMatch, editMatch, viewMatch, viewMatches };
