@@ -217,4 +217,5 @@ const viewMatches = async (req, res) => {
     matches: matches
   });
 };
+
 module.exports = { createMatch, editMatch, viewMatch, viewMatches };
