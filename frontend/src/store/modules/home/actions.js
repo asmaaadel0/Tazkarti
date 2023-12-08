@@ -325,7 +325,7 @@ export default {
     const teamName = payload.teamName;
 
     const response = await fetch(
-      baseurl + "/api/team/getTeamLogo/" + teamName,
+      baseurl + "/api/team/getTeamLogo?team=" + teamName,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

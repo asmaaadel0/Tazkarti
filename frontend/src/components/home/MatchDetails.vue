@@ -10,7 +10,7 @@
     </v-card-text>
     <v-card-text class="team-box">
       <v-img
-        src="../../assets/teamA.png"
+        :src="'http://' + homeTeamImage"
         alt="Team 1"
         class="team-image"
       ></v-img>
@@ -21,7 +21,7 @@
     <v-card-text class="text-center"><b class="vs">vs</b></v-card-text>
     <v-card-text class="team-box">
       <v-img
-        src="../../assets/teamA.png"
+        :src="'http://' + awayTeamImage"
         alt="Team 1"
         class="team-image"
       ></v-img>
@@ -74,7 +74,6 @@
     >
     <v-row>
       <v-card-text>
-        <v-btn block @click="showDetails()">Show Available Seats</v-btn>
         <v-btn block @click="editMatch()" class="margin-top" v-if="isManager"
           >Edit Match Details</v-btn
         >
@@ -83,26 +82,6 @@
         >
       </v-card-text></v-row
     >
-    <v-dialog v-model="dialog" max-width="600">
-      <v-card class="details-dialog">
-        <v-card-title class="details-title">Available Seats</v-card-title
-        ><v-container>
-          <v-row v-for="row in this.match.seats" :key="row">
-            <v-col v-for="col in row" :key="col" @click="chooseSeat(col)">
-              <v-icon
-                class="seat-icon"
-                size="large"
-                :color="!col.isReserved ? 'success' : 'grey darken-3'"
-                >mdi-seat</v-icon
-              >
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-card-actions>
-          <v-btn @click="closeDetails" class="btn">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-dialog v-model="reserve" max-width="600">
       <v-card>
         <v-row class="details-dialog">
@@ -186,7 +165,6 @@ export default {
   },
   data() {
     return {
-      dialog: false,
       reserve: false,
       homeTeamImage: "",
       awayTeamImage: "",
@@ -262,7 +240,6 @@ export default {
         }
       }
       this.homeTeamImage = this.$store.getters["teamImage"];
-      console.log(this.homeTeamImage);
       this.loading = false;
     },
     async loadAwayTeamImage() {
@@ -281,12 +258,6 @@ export default {
       }
       this.awayTeamImage = this.$store.getters["teamImage"];
       this.loading = false;
-    },
-    showDetails() {
-      this.dialog = true;
-    },
-    closeDetails() {
-      this.dialog = false;
     },
     reserveMatch() {
       if (!localStorage.getItem("accessToken")) {
@@ -389,7 +360,7 @@ export default {
 
 .team-image {
   width: 30%;
-  max-height: 100px;
+  max-height: 60px;
   object-fit: cover;
   margin-right: 2rem;
   align-self: flex-start;
@@ -432,6 +403,6 @@ b {
   padding: 0 0.5rem;
 }
 .vs {
-  font-size: 4rem !important;
+  font-size: 2rem !important;
 }
 </style>
