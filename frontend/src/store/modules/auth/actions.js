@@ -21,20 +21,8 @@ export default {
     });
 
     const responseData = await response.json();
-    if (response.status == 200) {
-      localStorage.setItem("accessToken", responseData.token);
-      localStorage.setItem("userName", responseData.userName);
-      localStorage.setItem("role", responseData.role);
-      localStorage.setItem("id", responseData._id);
-      context.commit("setUser", {
-        userName: responseData.userName,
-        accessToken: responseData.token,
-        role: responseData.role,
-        id: responseData._id,
-      });
-    }
 
-    if (response.status == 400) {
+    if (response.status != 200) {
       const error = new Error(responseData.error);
       throw error;
     }
