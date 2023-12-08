@@ -20,4 +20,7 @@ export default {
   teams(state) {
     return state.teams;
   },
+  teamImage(state) {
+    return state.teamImage;
+  },
 };

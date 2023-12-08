@@ -1,67 +1,90 @@
 <template>
   <v-card class="match-card">
-    <!-- <v-card-text class="text-center match-day">
-      <h3>{{ date }}</h3>
-    </v-card-text> -->
-    <v-card-text class="text-center match-day">
-      <!-- <v-img
-        src="@/assets/ball.jpg"
-        alt="Home Image"
-        class="home-image"
-      ></v-img> -->
-      <div class="text-block">
+    <v-card-text class="match-day">
+      <div>
         <h3>{{ date }}</h3>
       </div>
+      <div>
+        <h3>{{ time }}</h3>
+      </div>
     </v-card-text>
-    <v-card-text class="text-center team-info margin">
-      <!-- <v-img
+    <v-card-text class="team-box">
+      <v-img
         src="../../assets/teamA.png"
         alt="Team 1"
         class="team-image"
-      ></v-img> -->
+      ></v-img>
       <p class="team-name">
-        {{ match.homeTeam }} <b>vs</b> {{ match.awayTeam }}
+        {{ match.homeTeam }}
       </p>
     </v-card-text>
-    <v-card-text class="text-center team-info">
-      <!-- <v-img
+    <v-card-text class="text-center"><b class="vs">vs</b></v-card-text>
+    <v-card-text class="team-box">
+      <v-img
         src="../../assets/teamA.png"
-        alt="Team 2"
+        alt="Team 1"
         class="team-image"
       ></v-img>
-      <p class="team-name">{{ match.awayTeam }}</p> -->
-
-      <v-btn block @click="showDetails()" class="margin-top"
-        >View Details</v-btn
-      >
-      <v-btn block @click="editMatch()" class="margin-top" v-if="isManager"
-        >Edit Match Details</v-btn
-      >
-      <v-btn block @click="reserveMatch()" v-else class="margin-top"
-        >Reserve</v-btn
-      >
+      <p class="team-name">
+        {{ match.awayTeam }}
+      </p>
     </v-card-text>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-card-text>
+          <b><v-icon size="small">mdi-currency-usd</v-icon> Price</b>
+          <p class="team-name">
+            {{ match.ticketPrice }}
+          </p>
+        </v-card-text></v-col
+      >
+      <v-col cols="12" sm="6">
+        <v-card-text>
+          <b><v-icon size="small">mdi-map-outline</v-icon> Venue</b>
+          <p class="team-name">
+            {{ match.venue }}
+          </p>
+        </v-card-text></v-col
+      ></v-row
+    >
+    <v-row>
+      <v-col cols="4">
+        <v-card-text>
+          <b><v-icon size="small">mdi-account-outline</v-icon> Main Referee</b>
+          <p class="team-name">
+            {{ match.mainReferee }}
+          </p>
+        </v-card-text></v-col
+      ><v-col cols="4">
+        <v-card-text>
+          <b> First Linesman</b>
+          <p class="team-name">
+            {{ match.firstLinesman }}
+          </p>
+        </v-card-text></v-col
+      >
+      <v-col cols="4">
+        <v-card-text>
+          <b> Second Linesman</b>
+          <p class="team-name">
+            {{ match.secondLinesman }}
+          </p>
+        </v-card-text></v-col
+      ></v-row
+    >
+    <v-row>
+      <v-card-text>
+        <v-btn block @click="showDetails()">Show Available Seats</v-btn>
+        <v-btn block @click="editMatch()" class="margin-top" v-if="isManager"
+          >Edit Match Details</v-btn
+        >
+        <v-btn block @click="reserveMatch()" v-else class="margin-top"
+          >Reserve</v-btn
+        >
+      </v-card-text></v-row
+    >
     <v-dialog v-model="dialog" max-width="600">
       <v-card class="details-dialog">
-        <v-card-title class="details-title">Match Details</v-card-title>
-        <v-card-text class="center">
-          <p class="details-text"><b>Match Venue: </b>{{ match.venue }}</p>
-          <p class="details-text"><b>Date: </b>{{ date }}</p>
-          <p class="details-text"><b>Time: </b>{{ time }}</p>
-          <p class="details-text">
-            <b>Ticket Price: </b>{{ match.ticketPrice }}
-          </p>
-          <p class="details-text">
-            <b>Main Referee: </b>{{ match.mainReferee }}
-          </p>
-          <p class="details-text">
-            <b>First Linesman: </b>{{ match.firstLinesman }}
-          </p>
-          <p class="details-text">
-            <b>Second Linesman: </b>{{ match.secondLinesman }}
-          </p>
-        </v-card-text>
-
         <v-card-title class="details-title">Available Seats</v-card-title
         ><v-container>
           <v-row v-for="row in this.match.seats" :key="row">
@@ -165,6 +188,8 @@ export default {
     return {
       dialog: false,
       reserve: false,
+      homeTeamImage: "",
+      awayTeamImage: "",
 
       error: "",
       confirmed: false,
@@ -184,15 +209,27 @@ export default {
     date() {
       const dateTime = new Date(this.match.dateTime);
       const year = dateTime.getFullYear();
-      const month = dateTime.getMonth() + 1;
-      const day = dateTime.getDate();
-      return day + "-" + month + "-" + year;
+      let month = dateTime.getMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
+      }
+      let day = dateTime.getDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      return year + "-" + month + "-" + day;
     },
     time() {
       const dateTime = new Date(this.match.dateTime);
       const hours = dateTime.getHours();
-      const minutes = dateTime.getMinutes();
-      const seconds = dateTime.getSeconds();
+      let minutes = dateTime.getMinutes();
+      let seconds = dateTime.getSeconds();
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
       return hours + ":" + minutes + ":" + seconds;
     },
     numRows() {
@@ -206,8 +243,45 @@ export default {
     this.error = "";
     this.confirmed = false;
     this.loading = false;
+    this.loadHomeTeamImage();
+    this.loadAwayTeamImage();
   },
   methods: {
+    async loadHomeTeamImage() {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("loadTeamImage", {
+          baseurl: this.$baseurl,
+          teamName: this.match.homeTeam,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.homeTeamImage = this.$store.getters["teamImage"];
+      console.log(this.homeTeamImage);
+      this.loading = false;
+    },
+    async loadAwayTeamImage() {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("loadTeamImage", {
+          baseurl: this.$baseurl,
+          teamName: this.match.awayTeam,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.awayTeamImage = this.$store.getters["teamImage"];
+      this.loading = false;
+    },
     showDetails() {
       this.dialog = true;
     },
@@ -313,23 +387,26 @@ export default {
   width: 20rem;
 }
 
-.team-info {
-  position: relative;
-}
-
 .team-image {
-  width: 100%;
+  width: 30%;
   max-height: 100px;
   object-fit: cover;
+  margin-right: 2rem;
+  align-self: flex-start;
 }
 
 .match-day {
   background: rgba(255, 255, 255, 0.7);
   padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 }
 .team-name {
   color: var(--color-white);
-  font-size: 1.5rem;
+  font-size: 1rem;
+  width: 70%;
 }
 .seat {
   border-radius: 20%;
@@ -344,9 +421,17 @@ export default {
 }
 b {
   color: var(--color-primary-light);
+  font-size: 0.8rem;
 }
-.margin {
-  margin-top: 2rem;
+.team-box {
+  font-size: 4rem !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+}
+.vs {
   font-size: 4rem !important;
 }
 </style>

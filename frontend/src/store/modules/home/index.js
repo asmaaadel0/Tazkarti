@@ -12,6 +12,7 @@ export default {
       page: 1,
       match: {},
       teams: {},
+      teamImage: "",
     };
   },
   mutations,

@@ -227,7 +227,6 @@ export default {
         }
       }
       this.teams = this.$store.getters["teams"];
-      console.log(this.teams);
       this.loading = false;
     },
     async submitMatch() {

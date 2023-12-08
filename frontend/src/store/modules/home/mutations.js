@@ -20,4 +20,7 @@ export default {
   setTeams(state, payload) {
     state.teams = payload;
   },
+  setTeamImage(state, payload) {
+    state.teamImage = payload;
+  },
 };

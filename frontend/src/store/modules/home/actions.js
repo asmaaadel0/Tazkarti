@@ -318,4 +318,28 @@ export default {
     }
     // }
   },
+
+  async loadTeamImage(context, payload) {
+    const baseurl = payload.baseurl;
+
+    const teamName = payload.teamName;
+
+    const response = await fetch(
+      baseurl + "/api/team/getTeamLogo/" + teamName,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+
+    const responseData = await response.json();
+    if (response.status == 200) {
+      context.commit("setTeamImage", responseData.teamImageURL);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+  },
 };
