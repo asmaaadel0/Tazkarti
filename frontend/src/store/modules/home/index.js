@@ -11,6 +11,7 @@ export default {
       hasNext: true,
       page: 1,
       match: {},
+      teams: {},
     };
   },
   mutations,

@@ -87,9 +87,10 @@ export default {
       secondLinesman: payload.secondLinesman,
       ticketPrice: payload.ticketPrice,
     };
+    const id = payload.id;
 
-    const response = await fetch(baseurl + "/api/match/createMatch", {
-      method: "POST",
+    const response = await fetch(baseurl + "/api/match/editMatch/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -287,5 +288,34 @@ export default {
       const error = new Error(responseData.error);
       throw error;
     }
+  },
+
+  async loadAllTeams(context, payload) {
+    const baseurl = payload.baseurl;
+    const response = await fetch(baseurl + "/api/team/getTeams", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const responseData = await response.json();
+    if (response.status == 200) {
+      const teams = [];
+
+      for (let i = 0; i < responseData.length; i++) {
+        const match = {
+          id: responseData[i]._id,
+          name: responseData[i].name,
+          logo: responseData[i].logo,
+        };
+        teams.push(match);
+      }
+      context.commit("setTeams", teams);
+    }
+
+    if (!response.ok) {
+      const error = new Error(responseData.error);
+      throw error;
+    }
+    // }
   },
 };

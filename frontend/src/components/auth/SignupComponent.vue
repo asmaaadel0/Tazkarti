@@ -103,9 +103,13 @@
                   <v-radio label="Fan" value="fan"></v-radio>
                 </v-radio-group>
               </v-col>
-              <p class="error" v-if="errorUserName != ''">
-                {{ errorUserName }}
-              </p>
+
+              <v-col cols="12">
+                <v-alert v-if="confirmed" shaped type="success">
+                  Signup Successfully, Wait for admin to approve you.
+                </v-alert>
+                <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+              </v-col>
               <v-col cols="12">
                 <v-btn type="submit" block class="mt-2 btn" :loading="loading"
                   >Sign Up</v-btn
@@ -143,7 +147,8 @@ export default {
       email: "",
       selectedRole: null,
 
-      errorUserName: "",
+      error: "",
+      confirmed: false,
 
       loading: false,
     };
@@ -172,6 +177,9 @@ export default {
       return true;
     },
     async signup() {
+      this.confirmed = false;
+      this.error = false;
+      this.loading = true;
       if (
         !this.username ||
         !this.password ||
@@ -185,8 +193,6 @@ export default {
       ) {
         return;
       }
-      this.loading = true;
-      this.errorUserName = "";
       const actionPayload = {
         userName: this.username,
         password: this.password,
@@ -204,13 +210,14 @@ export default {
       try {
         await this.$store.dispatch("signup", actionPayload);
       } catch (err) {
-        this.errorUserName = err.message;
+        this.error = err.message;
         this.loading = false;
         return;
       }
-      this.$router.replace("/matches");
+      // this.$router.replace("/matches");
 
       this.loading = false;
+      this.confirmed = true;
     },
   },
 };

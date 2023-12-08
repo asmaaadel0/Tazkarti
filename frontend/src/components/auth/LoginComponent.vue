@@ -25,9 +25,9 @@
               v-model="password"
               :rules="[validatePassword]"
             ></v-text-field>
-            <p class="error" v-if="error != ''">
-              {{ error }}
-            </p>
+            <v-col cols="12">
+              <v-alert v-if="error" shaped type="error">{{ error }} </v-alert>
+            </v-col>
             <v-btn type="submit" block class="mt-2 btn" :loading="loading"
               >Sign In</v-btn
             >
