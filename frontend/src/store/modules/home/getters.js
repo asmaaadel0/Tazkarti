@@ -17,4 +17,7 @@ export default {
   match(state) {
     return state.match;
   },
+  teams(state) {
+    return state.teams;
+  },
 };

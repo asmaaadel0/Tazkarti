@@ -17,4 +17,7 @@ export default {
   setMatch(state, payload) {
     state.match = payload;
   },
+  setTeams(state, payload) {
+    state.teams = payload;
+  },
 };

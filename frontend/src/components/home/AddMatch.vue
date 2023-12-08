@@ -8,24 +8,26 @@
         <v-form ref="form" @submit.prevent="submitMatch">
           <v-row>
             <v-col cols="12" sm="6">
-              <v-text-field
-                prepend-inner-icon="mdi-soccer"
+              <v-select
+                :items="teamOptions"
+                v-model="homeTeam"
                 label="Team 1"
                 required
-                class="input-label"
-                v-model="homeTeam"
-                :rules="[validateInput]"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field
                 prepend-inner-icon="mdi-soccer"
                 class="input-label"
+                :rules="[validateInput]"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-select
+                :items="teamOptions"
+                v-model="awayTeam"
                 label="Team 2"
                 required
-                v-model="awayTeam"
+                prepend-inner-icon="mdi-soccer"
+                class="input-label"
                 :rules="[validateInput]"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
@@ -153,6 +155,7 @@ export default {
       ticketPrice: this.match.ticketPrice,
 
       error: "",
+      teams: [],
 
       loading: false,
       confirmed: false,
@@ -161,11 +164,15 @@ export default {
   created() {
     this.loading = false;
     this.confirmed = false;
+    this.loadTeams();
     if (this.isEdited) {
       this.formatDateTime();
     }
   },
   computed: {
+    teamOptions() {
+      return this.teams.map((team) => team.name);
+    },
     date() {
       const dateTime = new Date(this.match.dateTime);
       const year = dateTime.getFullYear();
@@ -206,6 +213,22 @@ export default {
         return "This Field is Required";
       }
       return true;
+    },
+    async loadTeams() {
+      this.loading = true;
+      try {
+        await this.$store.dispatch("loadAllTeams", {
+          baseurl: this.$baseurl,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.teams = this.$store.getters["teams"];
+      console.log(this.teams);
+      this.loading = false;
     },
     async submitMatch() {
       if (
