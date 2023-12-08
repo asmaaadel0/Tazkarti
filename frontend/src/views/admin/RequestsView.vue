@@ -5,9 +5,9 @@
         <v-list-item v-for="user in users" :key="user.id" class="center">
           <v-row class="margin">
             <v-col cols="6">
-              <button class="text-left px-2" @click="showUserDetails(user.id)">
+              <b class="text-left px-2" @click="showUserDetails(user.id)">
                 {{ user.userName }}
-              </button>
+              </b>
             </v-col>
             <v-col cols="6"
               ><v-btn color="green" @click="showUserDetails(user.id)">
@@ -236,6 +236,10 @@ export default {
 }
 .staduim-card {
   margin-top: 2rem;
+}
+.text-left {
+  color: var(--color-black);
+  font-size: 1rem;
 }
 .details-title {
   /* color: var(--color-white); */

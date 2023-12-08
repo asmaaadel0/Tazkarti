@@ -5,9 +5,9 @@
         <v-list-item v-for="user in users" :key="user.id" class="center">
           <v-row class="margin">
             <v-col cols="6">
-              <button class="text-left px-2" @click="showUserDetails(user.id)">
+              <b class="text-left px-2" @click="showUserDetails(user.id)">
                 {{ user.userName }}
-              </button>
+              </b>
             </v-col>
             <v-col cols="6"
               ><v-btn color="green" @click="showUserDetails(user.id)">
@@ -192,6 +192,10 @@ export default {
 .margin {
   margin: 0.5rem 0;
 }
+.text-left {
+  color: var(--color-black);
+  font-size: 1rem;
+}
 .child2 {
   flex-basis: 70%;
   width: 70%;
@@ -201,7 +205,6 @@ export default {
   margin-top: 2rem;
 }
 .details-title {
-  /* color: var(--color-white); */
   margin-bottom: 0.5rem;
   font-size: 1.5rem;
 }
