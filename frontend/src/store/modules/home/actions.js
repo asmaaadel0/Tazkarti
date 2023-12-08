@@ -87,9 +87,10 @@ export default {
       secondLinesman: payload.secondLinesman,
       ticketPrice: payload.ticketPrice,
     };
+    const id = payload.id;
 
-    const response = await fetch(baseurl + "/api/match/createMatch", {
-      method: "POST",
+    const response = await fetch(baseurl + "/api/match/editMatch/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

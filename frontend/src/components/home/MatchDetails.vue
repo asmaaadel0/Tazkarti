@@ -143,6 +143,7 @@
       :addMatchDialog="editMatchDialog"
       :isEdited="true"
       :match="match"
+      @refresh-match="$emit('refresh')"
       @close-match="closeEditMatch"
     ></add-match>
   </v-card>

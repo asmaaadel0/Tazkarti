@@ -222,19 +222,19 @@ export default {
       }
       this.loading = true;
       this.error = "";
-      const actionPayload = {
-        homeTeam: this.homeTeam,
-        awayTeam: this.awayTeam,
-        venue: this.venue,
-        dateTime: this.dateTime,
-        mainReferee: this.mainReferee,
-        firstLinesman: this.firstLinesman,
-        secondLinesman: this.secondLinesman,
-        ticketPrice: this.ticketPrice,
-
-        baseurl: this.$baseurl,
-      };
       if (!this.isEdited) {
+        const actionPayload = {
+          homeTeam: this.homeTeam,
+          awayTeam: this.awayTeam,
+          venue: this.venue,
+          dateTime: this.dateTime,
+          mainReferee: this.mainReferee,
+          firstLinesman: this.firstLinesman,
+          secondLinesman: this.secondLinesman,
+          ticketPrice: this.ticketPrice,
+
+          baseurl: this.$baseurl,
+        };
         try {
           await this.$store.dispatch("addMatch", actionPayload);
         } catch (err) {
@@ -243,6 +243,20 @@ export default {
           return;
         }
       } else {
+        const actionPayload = {
+          homeTeam: this.homeTeam,
+          awayTeam: this.awayTeam,
+          venue: this.venue,
+          dateTime: this.dateTime,
+          mainReferee: this.mainReferee,
+          firstLinesman: this.firstLinesman,
+          secondLinesman: this.secondLinesman,
+          ticketPrice: this.ticketPrice,
+
+          id: this.match.id,
+
+          baseurl: this.$baseurl,
+        };
         try {
           await this.$store.dispatch("editMatch", actionPayload);
         } catch (err) {
@@ -253,6 +267,7 @@ export default {
       }
       this.loading = false;
       this.confirmed = true;
+      this.$emit("refresh-match");
     },
   },
 };
