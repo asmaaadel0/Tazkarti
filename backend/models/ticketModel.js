@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 
 const ticketSchema = new mongoose.Schema({
   matchId: { type: String, required: true },
-  seatNumber: { type: String, required: true },
+  seatNumbers: { type: [String], required: true },
   userName: { type: String, required: true },
   price: { type: Number, required: true }
 });
 
 ticketSchema.statics.reserveTicket = async function(
   matchId,
-  seatNumber,
+  seatNumbers,
   userName,
   price
 ) {
-  if (!matchId || !seatNumber || !userName || !price) {
+  if (!matchId || !seatNumbers || !userName || !price) {
     throw Error('this fields is required !');
   }
   const ticket = await this.create({
     matchId,
-    seatNumber,
+    seatNumbers,
     userName,
     price
   });

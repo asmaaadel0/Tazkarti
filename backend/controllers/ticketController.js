@@ -4,9 +4,9 @@ const Match = require('../models/matchModel.js');
 const reserveTicket = async (req, res) => {
   try {
     const matchId = req.body.matchId;
-    const seatNumber = req.body.seatNumber;
+    const seatNumbers = req.body.seatNumbers;
     const userName = req.body.userName;
-
+    console.log(seatNumbers);
     const match = await Match.findById(matchId);
     // console.log(match);
     if (!match) throw Error('no match found to be updated !');
@@ -16,12 +16,20 @@ const reserveTicket = async (req, res) => {
       // Loop over each seat in the row
       row.forEach(seat => {
         // Set isReserved to true
-        if (seat.number === seatNumber) {
-          console.log(seatNumber);
-          if (seat.isReserved === true) {
-            throw Error("you can't reserve this seat it is already reserved! ");
-          } else {
-            seat.isReserved = true;
+        // let count=0;
+        // let seats1=seatNumbers;
+        for (let i = 0; i < seatNumbers.length; i++) {
+          if (seat.number === seatNumbers[i]) {
+            console.log(seat.number, seatNumbers[i]);
+            console.log(seat.isReserved);
+            // console.log(seatNumbers[i]);
+            if (seat.isReserved === true) {
+              throw Error(
+                "you can't reserve this seat it is already reserved! "
+              );
+            } else {
+              seat.isReserved = true;
+            }
           }
         }
       });
@@ -40,14 +48,14 @@ const reserveTicket = async (req, res) => {
       throw Error('lol !');
     }
 
-    const price = match1.ticketPrice;
+    const price = match1.ticketPrice * seatNumbers.length;
     // console.log(matchId);
     // console.log(seatNumber);
     // console.log(userName);
     // console.log(price);
     const ticket = await ticketModel.reserveTicket(
       matchId,
-      seatNumber,
+      seatNumbers,
       userName,
       price
     );
