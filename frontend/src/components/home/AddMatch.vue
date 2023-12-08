@@ -1,9 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="600">
     <v-card class="details-dialog">
-      <v-card-title class="details-title"
-        >Add Match {{ dateTime }}</v-card-title
-      >
       <v-card-text class="center">
         <v-form ref="form" @submit.prevent="submitMatch">
           <v-row>
@@ -30,14 +27,15 @@
               ></v-select>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field
-                prepend-inner-icon="mdi-map-outline"
+              <v-select
+                :items="venueOptions"
+                v-model="venue"
                 label="venue"
                 required
+                prepend-inner-icon="mdi-map-outline"
                 class="input-label"
-                v-model="venue"
                 :rules="[validateInput]"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
@@ -156,6 +154,7 @@ export default {
 
       error: "",
       teams: [],
+      staduims: [],
 
       loading: false,
       confirmed: false,
@@ -165,6 +164,7 @@ export default {
     this.loading = false;
     this.confirmed = false;
     this.loadTeams();
+    this.loadStaduims();
     if (this.isEdited) {
       this.formatDateTime();
     }
@@ -172,6 +172,9 @@ export default {
   computed: {
     teamOptions() {
       return this.teams.map((team) => team.name);
+    },
+    venueOptions() {
+      return this.staduims.map((staduim) => staduim.name);
     },
     date() {
       const dateTime = new Date(this.match.dateTime);
@@ -227,6 +230,22 @@ export default {
         }
       }
       this.teams = this.$store.getters["teams"];
+      this.loading = false;
+    },
+    async loadStaduims() {
+      this.loading = true;
+
+      try {
+        await this.$store.dispatch("loadAllStaduims", {
+          baseurl: this.$baseurl,
+        });
+      } catch (error) {
+        this.error = error.message || "Something went wrong";
+        if (error.message == "Server Error") {
+          this.$router.push("/internal-server-error");
+        }
+      }
+      this.staduims = this.$store.getters["staduims"];
       this.loading = false;
     },
     async submitMatch() {
@@ -290,6 +309,7 @@ export default {
       this.loading = false;
       this.confirmed = true;
       this.$emit("refresh-match");
+      location.reload();
     },
   },
 };

@@ -39,7 +39,7 @@ export default {
           this.$router.push("/internal-server-error");
         }
       }
-      this.staduims = this.staduims.concat(this.$store.getters["staduims"]);
+      this.staduims = this.$store.getters["staduims"];
       this.loading = false;
     },
   },

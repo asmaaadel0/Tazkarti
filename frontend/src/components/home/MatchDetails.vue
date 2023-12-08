@@ -145,7 +145,7 @@
       :addMatchDialog="editMatchDialog"
       :isEdited="true"
       :match="match"
-      @refresh-match="$emit('refresh')"
+      @refresh-match="refresh"
       @close-match="closeEditMatch"
     ></add-match>
   </v-card>
@@ -321,6 +321,9 @@ export default {
 
       this.loading = false;
       this.confirmed = true;
+      this.$emit("refresh");
+    },
+    refresh() {
       this.$emit("refresh");
     },
   },
