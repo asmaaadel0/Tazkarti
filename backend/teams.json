@@ -1,0 +1,75 @@
+[
+  {
+    "name": "Al-Ahly-Club",
+    "logo": "localhost:3000/images/Al-Ahly-Club.png"
+  },
+  {
+    "name": "Al-Dakhleya-SC",
+    "logo": "localhost:3000/images/Al-Dakhleya-SC.png"
+  },
+  {
+    "name": "Al-Ittihad-Alexandria-Club",
+    "logo": "localhost:3000/images/Al-Ittihad-Alexandria-Club.png"
+  },
+  {
+    "name": "Al-Masry-Club",
+    "logo": "localhost:3000/images/Al-Masry-Club.png"
+  },
+  {
+    "name": "Al-Mokawloon-Al-Arab",
+    "logo": "localhost:3000/images/Al-Mokawloon-Al-Arab.png"
+  },
+  {
+    "name": "Baladiya-Al-Mahalla-SC",
+    "logo": "localhost:3000/images/Baladiya-Al-Mahalla-SC.png"
+  },
+  {
+    "name": "Cleapatra-FC",
+    "logo": "localhost:3000/images/Cleapatra-FC.png"
+  },
+
+  {
+    "name": "El-Gouna-FC",
+    "logo": "localhost:3000/images/El-Gouna-FC.png"
+  },
+  {
+    "name": "ENPPI-Club",
+    "logo": "localhost:3000/images/ENPPI-Club.png"
+  },
+  {
+    "name": "Future-FC",
+    "logo": "localhost:3000/images/Future-FC.png"
+  },
+  {
+    "name": "Ismaily-SC",
+    "logo": "localhost:3000/images/Ismaily-SC.png"
+  },
+  {
+    "name": "National-Bank-of-Egypt-Club",
+    "logo": "localhost:3000/images/National-Bank-of-Egypt-Club.png"
+  },
+  {
+    "name": "Pharco-FC",
+    "logo": "localhost:3000/images/Pharco-FC.png"
+  },
+  {
+    "name": "Pyramids-FC",
+    "logo": "localhost:3000/images/Pyramids-FC.png"
+  },
+  {
+    "name": "Smouha-Club",
+    "logo": "localhost:3000/images/Smouha-Club.png"
+  },
+  {
+    "name": "Talaea-El-Gaish-SC",
+    "logo": "localhost:3000/images/Talaea-El-Gaish-SC.png"
+  },
+  {
+    "name": "ZED-FC",
+    "logo": "localhost:3000/images/ZED-FC.png"
+  },
+  {
+    "name": "Zamalek-SC",
+    "logo": "localhost:3000/images/Zamalek-SC.png"
+  }
+]
