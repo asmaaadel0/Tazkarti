@@ -6,7 +6,7 @@ const reserveTicket = async (req, res) => {
     const matchId = req.body.matchId;
     const seatNumbers = req.body.seatNumbers;
     const userName = req.body.userName;
-    console.log(seatNumbers);
+    // console.log(seatNumbers);
     const match = await Match.findById(matchId);
     // console.log(match);
     if (!match) throw Error('no match found to be updated !');
@@ -20,8 +20,8 @@ const reserveTicket = async (req, res) => {
         // let seats1=seatNumbers;
         for (let i = 0; i < seatNumbers.length; i++) {
           if (seat.number === seatNumbers[i]) {
-            console.log(seat.number, seatNumbers[i]);
-            console.log(seat.isReserved);
+            // console.log(seat.number, seatNumbers[i]);
+            // console.log(seat.isReserved);
             // console.log(seatNumbers[i]);
             if (seat.isReserved === true) {
               throw Error(
