@@ -6,14 +6,14 @@ const reserveTicket = async (req, res) => {
   try {
     const matchId = req.body.matchId;
     const seatNumbers = req.body.seatNumbers;
-    console.log(seatNumbers.length);
+    // console.log(seatNumbers.length);
     const userName = req.body.userName;
     // console.log(seatNumbers);
     const match = await Match.findById(matchId);
     // console.log(match);
     if (!match) throw Error('no match found to be updated !');
     const seats = match.seats;
-    console.log(seatNumbers.length);
+    // console.log(seatNumbers.length);
 
     seats.forEach(row => {
       // Loop over each seat in the row
