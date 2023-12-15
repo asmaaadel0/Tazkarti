@@ -172,9 +172,10 @@ export default {
 
     const details = {
       matchId: payload.matchId,
-      seatNumber: payload.seatNumber,
+      seatNumbers: payload.seatNumber,
       userName: payload.userName,
     };
+    console.log(details);
 
     const response = await fetch(baseurl + "/api/ticket/reserveTicket", {
       method: "POST",
@@ -186,6 +187,7 @@ export default {
     });
 
     const responseData = await response.json();
+    console.log(responseData);
 
     if (!response.ok) {
       const error = new Error(responseData.error || responseData.msg);
