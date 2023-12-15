@@ -108,12 +108,21 @@
 
         <v-container>
           <v-row v-for="row in this.match.seats" :key="row">
-            <v-col v-for="col in row" :key="col" @click="chooseSeat(col)">
+            <v-col v-for="col in row" :key="col">
               <div class="seat">
                 <v-icon
+                  @click="chooseSeat(col)"
+                  v-if="!col.isReserved"
+                  class="seat-icon seat-reserved"
+                  size="large"
+                  color="success"
+                  >mdi-seat</v-icon
+                >
+                <v-icon
+                  v-else
                   class="seat-icon"
                   size="large"
-                  :color="!col.isReserved ? 'success' : 'grey darken-3'"
+                  color="grey darken-3"
                   >mdi-seat</v-icon
                 >
               </div>
@@ -175,7 +184,7 @@ export default {
 
       creditCard: "",
       pinNumber: "",
-      choosenSeat: "",
+      choosenSeats: [],
 
       editMatchDialog: false,
     };
@@ -286,7 +295,7 @@ export default {
     chooseSeat(seat) {
       this.error = "";
       this.confirmed = false;
-      this.choosenSeat = seat.number;
+      this.choosenSeats.push(seat.number);
     },
     async reserveTicket() {
       this.error = "";
@@ -299,13 +308,19 @@ export default {
         this.error = "Enter valid Pin Number";
         return;
       }
-      if (!this.choosenSeat) {
+      if (!this.choosenSeats) {
         this.error = "Choose Your Seat!";
         return;
       }
+
+      const arrayValues = Object.values(this.choosenSeats);
+      let array = [];
+      arrayValues.forEach((value) => {
+        array.push(value);
+      });
       const actionPayload = {
         matchId: this.match.id,
-        seatNumber: this.choosenSeat,
+        seatNumber: array,
         userName: localStorage.getItem("userName"),
 
         baseurl: this.$baseurl,
@@ -386,8 +401,9 @@ export default {
   border-radius: 20%;
   width: 1.8rem;
 }
-.seat:hover {
+.seat-reserved:hover {
   background-color: yellow;
+  cursor: pointer;
 }
 
 .details-title {
