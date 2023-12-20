@@ -230,6 +230,7 @@ export default {
     this.error = "";
     this.confirmed = false;
     this.loading = false;
+    this.choosenSeats = [];
     this.loadHomeTeamImage();
     this.loadAwayTeamImage();
   },
@@ -275,11 +276,13 @@ export default {
       this.reserve = true;
       this.confirmed = false;
       this.loading = false;
+      this.choosenSeats = [];
     },
     closeReserve() {
       this.reserve = false;
       this.confirmed = false;
       this.loading = false;
+      this.choosenSeats = [];
     },
     editMatch() {
       if (!localStorage.getItem("accessToken")) {
@@ -336,6 +339,7 @@ export default {
 
       this.loading = false;
       this.confirmed = true;
+      this.choosenSeats = [];
       this.$emit("refresh");
     },
     refresh() {
