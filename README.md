@@ -1,5 +1,3 @@
-# Match-Reservation-System
-
 ## 📝 Table of Contents
 
 - [About <a name = "about"></a>](#about-)
