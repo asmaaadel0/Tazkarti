@@ -7,7 +7,7 @@
 
 ## About <a name = "about"></a>
 
--An online automated ticket reservation system for football matches in the Egyptian Premier League is requested by the client. The system allows the EFA (Egyptian Federation Association) management to create, manage, and maintain current and future matches. The system should allow the users to reserve specific seats for the matches they want to attend.
+- An online automated ticket reservation system for football matches in the Egyptian Premier League is requested by the client. The system allows the EFA (Egyptian Federation Association) management to create, manage, and maintain current and future matches. The system should allow the users to reserve specific seats for the matches they want to attend.
 
 ## Screen Video from the Website and features: <a name = "screen-video"></a>
 ![image](https://github.com/asmaaadel0/Tazkarti/assets/88630231/9a96fd24-8295-478a-8168-b25ff9e05b1f)
